@@ -1,0 +1,36 @@
+# Setup Cluster
+
+
+for i in 1 2 3 4 5; do
+  docker-machine create --driver google   --google-project selfhealing-216620   --google-zone europe-west2-a   --google-machine-type n1-highcpu-2 swarm-$i
+done
+
+eval $(docker-machine env swarm-1)
+
+docker swarm init --advertise-addr $(docker-machine ip swarm-1)
+
+TOKEN=$(docker swarm join-token -q manager)
+
+for i in 2 3; do
+  eval $(docker-machine env swarm-$i)
+
+  docker swarm join --advertise-addr $(docker-machine ip swarm-$i) \
+        --token $TOKEN $(docker-machine ip swarm-1):2377
+done
+eval $(docker-machine env swarm-1)
+
+ 
+TOKEN=$(docker swarm join-token -q worker)
+
+for i in 4 5; do
+  eval $(docker-machine env swarm-$i)
+
+  docker swarm join --advertise-addr $(docker-machine ip swarm-1) \
+        --token $TOKEN $(docker-machine ip gc-swarm-manager):2377
+done
+
+docker node ls
+
+docker swarm join --token SWMTKN-1-4bxd0svt18azm5vo44e9jv7r0kyz2c18v2wurv0l6avacvi3ys-exlbol7nt6gmpye4akirebbas 35.242.135.197:2377
+docker swarm join --token SWMTKN-1-4bxd0svt18azm5vo44e9jv7r0kyz2c18v2wurv0l6avacvi3ys-2ml5wn5mjhx1xmc01en3d0t98 35.242.135.197:2377
+docker swarm join --token SWMTKN-1-0pluwfcfgkokj7a0re01rt22qdb4faruf5y9atbmgbstlj2vd5-btenine48ys2vvtkibtchfbc1 35.242.137.80:2377

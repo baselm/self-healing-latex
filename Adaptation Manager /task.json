@@ -1,0 +1,569 @@
+[
+  {
+    u'Slot': 1,
+    u'Status': {
+      u'ContainerStatus': {
+        u'PID': 0,
+        u'ContainerID': u'',
+        u'ExitCode': 0
+      },
+      u'PortStatus': {
+        
+      },
+      u'Err': u'No such image: 80:80',
+      u'Timestamp': u'2018-09-20T12:18:22.204566561Z',
+      u'State': u'rejected',
+      u'Message': u'preparing'
+    },
+    u'Labels': {
+      
+    },
+    u'NodeID': u'8kday1tlidkfijif1q887be9z',
+    u'ID': u'iq2to16rq4ied3gmjj0l7jwhd',
+    u'DesiredState': u'shutdown',
+    u'Version': {
+      u'Index': 13356
+    },
+    u'ServiceID': u'lvoa3lyv82xwiq76su3k69omg',
+    u'UpdatedAt': u'2018-09-20T12:18:25.287431607Z',
+    u'Spec': {
+      u'Placement': {
+        
+      },
+      u'ContainerSpec': {
+        u'DNSConfig': {
+          
+        },
+        u'Healthcheck': {
+          u'Test': [
+            u'CMD-SHELL',
+            u'-p'
+          ]
+        },
+        u'Image': u'80:80',
+        u'Args': [
+          u'--name',
+          u'web',
+          u'nginx'
+        ],
+        u'Init': False,
+        u'Isolation': u'default'
+      },
+      u'Resources': {
+        u'Reservations': {
+          
+        },
+        u'Limits': {
+          
+        }
+      },
+      u'ForceUpdate': 0
+    },
+    u'CreatedAt': u'2018-09-20T12:18:20.100148046Z'
+  },
+  {
+    u'Slot': 1,
+    u'Status': {
+      u'Timestamp': u'2018-09-20T10:38:13.356212601Z',
+      u'State': u'running',
+      u'ContainerStatus': {
+        u'PID': 9418,
+        u'ContainerID': u'4e8fe117ececaaf3f049f2491194e1a4bfbba904af96b3714021147ee9a83925',
+        u'ExitCode': 0
+      },
+      u'Message': u'started',
+      u'PortStatus': {
+        
+      }
+    },
+    u'Labels': {
+      
+    },
+    u'NodeID': u'8kday1tlidkfijif1q887be9z',
+    u'ID': u'jw1u8ocyhjv6gm6amwhu63v9s',
+    u'DesiredState': u'running',
+    u'Version': {
+      u'Index': 4943
+    },
+    u'ServiceID': u'if68ja8yu1mmshue84q8nxdvi',
+    u'UpdatedAt': u'2018-09-20T10:38:13.451039684Z',
+    u'NetworksAttachments': [
+      {
+        u'Network': {
+          u'IPAMOptions': {
+            u'Configs': [
+              {
+                u'Subnet': u'10.255.0.0/16',
+                u'Gateway': u'10.255.0.1'
+              }
+            ],
+            u'Driver': {
+              u'Name': u'default'
+            }
+          },
+          u'ID': u'i3j4i5yixu7cbekiggytpyeue',
+          u'Version': {
+            u'Index': 4909
+          },
+          u'UpdatedAt': u'2018-09-20T10:38:03.687341703Z',
+          u'DriverState': {
+            u'Name': u'overlay',
+            u'Options': {
+              u'com.docker.network.driver.overlay.vxlanid_list': u'4096'
+            }
+          },
+          u'Spec': {
+            u'Ingress': True,
+            u'Name': u'ingress',
+            u'Labels': {
+              
+            },
+            u'Scope': u'swarm',
+            u'IPAMOptions': {
+              u'Configs': [
+                {
+                  u'Subnet': u'10.255.0.0/16',
+                  u'Gateway': u'10.255.0.1'
+                }
+              ],
+              u'Driver': {
+                
+              }
+            },
+            u'DriverConfiguration': {
+              
+            }
+          },
+          u'CreatedAt': u'2018-09-19T09:38:41.2417052Z'
+        },
+        u'Addresses': [
+          u'10.255.0.3/16'
+        ]
+      }
+    ],
+    u'Spec': {
+      u'Placement': {
+        u'Platforms': [
+          {
+            u'OS': u'linux',
+            u'Architecture': u'amd64'
+          },
+          {
+            u'OS': u'linux'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u'arm64'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u'386'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u'ppc64le'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u's390x'
+          }
+        ]
+      },
+      u'ContainerSpec': {
+        u'Isolation': u'default',
+        u'Image': u'nginx:latest@sha256:24a0c4b4a4c0eb97a1aabb8e29f18e917d05abfe1b7a7c07857230879ce7d3d3',
+        u'Init': False,
+        u'DNSConfig': {
+          
+        }
+      },
+      u'Resources': {
+        u'Reservations': {
+          
+        },
+        u'Limits': {
+          
+        }
+      },
+      u'ForceUpdate': 0
+    },
+    u'CreatedAt': u'2018-09-20T10:38:07.199106116Z'
+  },
+  {
+    u'Slot': 1,
+    u'Status': {
+      u'ContainerStatus': {
+        u'PID': 0,
+        u'ContainerID': u'',
+        u'ExitCode': 0
+      },
+      u'PortStatus': {
+        
+      },
+      u'Err': u'No such image: 80:80',
+      u'Timestamp': u'2018-09-20T12:18:17.119139406Z',
+      u'State': u'rejected',
+      u'Message': u'preparing'
+    },
+    u'Labels': {
+      
+    },
+    u'NodeID': u'8kday1tlidkfijif1q887be9z',
+    u'ID': u'nb7pnmba5yw61fh5dgxyd23kr',
+    u'DesiredState': u'shutdown',
+    u'Version': {
+      u'Index': 13349
+    },
+    u'ServiceID': u'lvoa3lyv82xwiq76su3k69omg',
+    u'UpdatedAt': u'2018-09-20T12:18:20.279201603Z',
+    u'Spec': {
+      u'Placement': {
+        
+      },
+      u'ContainerSpec': {
+        u'DNSConfig': {
+          
+        },
+        u'Healthcheck': {
+          u'Test': [
+            u'CMD-SHELL',
+            u'-p'
+          ]
+        },
+        u'Image': u'80:80',
+        u'Args': [
+          u'--name',
+          u'web',
+          u'nginx'
+        ],
+        u'Init': False,
+        u'Isolation': u'default'
+      },
+      u'Resources': {
+        u'Reservations': {
+          
+        },
+        u'Limits': {
+          
+        }
+      },
+      u'ForceUpdate': 0
+    },
+    u'CreatedAt': u'2018-09-20T12:18:15.11973832Z'
+  },
+  {
+    u'Slot': 1,
+    u'Status': {
+      u'ContainerStatus': {
+        u'PID': 0,
+        u'ContainerID': u'',
+        u'ExitCode': 0
+      },
+      u'PortStatus': {
+        
+      },
+      u'Err': u'No such image: 80:80',
+      u'Timestamp': u'2018-09-20T12:18:32.154236199Z',
+      u'State': u'rejected',
+      u'Message': u'preparing'
+    },
+    u'Labels': {
+      
+    },
+    u'NodeID': u'8kday1tlidkfijif1q887be9z',
+    u'ID': u'p35v1eqagx4tpdbnm48jn0qme',
+    u'DesiredState': u'ready',
+    u'Version': {
+      u'Index': 13365
+    },
+    u'ServiceID': u'lvoa3lyv82xwiq76su3k69omg',
+    u'UpdatedAt': u'2018-09-20T12:18:32.233327439Z',
+    u'Spec': {
+      u'Placement': {
+        
+      },
+      u'ContainerSpec': {
+        u'DNSConfig': {
+          
+        },
+        u'Healthcheck': {
+          u'Test': [
+            u'CMD-SHELL',
+            u'-p'
+          ]
+        },
+        u'Image': u'80:80',
+        u'Args': [
+          u'--name',
+          u'web',
+          u'nginx'
+        ],
+        u'Init': False,
+        u'Isolation': u'default'
+      },
+      u'Resources': {
+        u'Reservations': {
+          
+        },
+        u'Limits': {
+          
+        }
+      },
+      u'ForceUpdate': 0
+    },
+    u'CreatedAt': u'2018-09-20T12:18:30.107399996Z'
+  },
+  {
+    u'Slot': 1,
+    u'Status': {
+      u'ContainerStatus': {
+        u'PID': 0,
+        u'ContainerID': u'',
+        u'ExitCode': 0
+      },
+      u'PortStatus': {
+        
+      },
+      u'Err': u'No such image: 80:80',
+      u'Timestamp': u'2018-09-20T12:18:27.236250127Z',
+      u'State': u'rejected',
+      u'Message': u'preparing'
+    },
+    u'Labels': {
+      
+    },
+    u'NodeID': u'8kday1tlidkfijif1q887be9z',
+    u'ID': u'pe2mnaueu88d8x8m7ballxmha',
+    u'DesiredState': u'shutdown',
+    u'Version': {
+      u'Index': 13363
+    },
+    u'ServiceID': u'lvoa3lyv82xwiq76su3k69omg',
+    u'UpdatedAt': u'2018-09-20T12:18:30.290359216Z',
+    u'Spec': {
+      u'Placement': {
+        
+      },
+      u'ContainerSpec': {
+        u'DNSConfig': {
+          
+        },
+        u'Healthcheck': {
+          u'Test': [
+            u'CMD-SHELL',
+            u'-p'
+          ]
+        },
+        u'Image': u'80:80',
+        u'Args': [
+          u'--name',
+          u'web',
+          u'nginx'
+        ],
+        u'Init': False,
+        u'Isolation': u'default'
+      },
+      u'Resources': {
+        u'Reservations': {
+          
+        },
+        u'Limits': {
+          
+        }
+      },
+      u'ForceUpdate': 0
+    },
+    u'CreatedAt': u'2018-09-20T12:18:25.102894473Z'
+  },
+  {
+    u'Slot': 1,
+    u'Status': {
+      u'ContainerStatus': {
+        u'PID': 0,
+        u'ContainerID': u'761bd3fbddac61ad04caf634d373a846fd0292fa0a546480b42fd25fc6f6af55',
+        u'ExitCode': 255
+      },
+      u'PortStatus': {
+        
+      },
+      u'Err': u'task: non-zero exit (255)',
+      u'Timestamp': u'2018-09-20T10:38:02.453169012Z',
+      u'State': u'failed',
+      u'Message': u'started'
+    },
+    u'Labels': {
+      
+    },
+    u'NodeID': u'8kday1tlidkfijif1q887be9z',
+    u'ID': u'sb9p1bvejfafay53zosbo7zs2',
+    u'DesiredState': u'shutdown',
+    u'Version': {
+      u'Index': 4927
+    },
+    u'ServiceID': u'if68ja8yu1mmshue84q8nxdvi',
+    u'UpdatedAt': u'2018-09-20T10:38:07.604010195Z',
+    u'NetworksAttachments': [
+      {
+        u'Network': {
+          u'IPAMOptions': {
+            u'Configs': [
+              {
+                u'Subnet': u'10.255.0.0/16',
+                u'Gateway': u'10.255.0.1'
+              }
+            ],
+            u'Driver': {
+              u'Name': u'default'
+            }
+          },
+          u'ID': u'i3j4i5yixu7cbekiggytpyeue',
+          u'Version': {
+            u'Index': 4909
+          },
+          u'UpdatedAt': u'2018-09-20T10:38:03.687341703Z',
+          u'DriverState': {
+            u'Name': u'overlay',
+            u'Options': {
+              u'com.docker.network.driver.overlay.vxlanid_list': u'4096'
+            }
+          },
+          u'Spec': {
+            u'Ingress': True,
+            u'Name': u'ingress',
+            u'Labels': {
+              
+            },
+            u'Scope': u'swarm',
+            u'IPAMOptions': {
+              u'Configs': [
+                {
+                  u'Subnet': u'10.255.0.0/16',
+                  u'Gateway': u'10.255.0.1'
+                }
+              ],
+              u'Driver': {
+                
+              }
+            },
+            u'DriverConfiguration': {
+              
+            }
+          },
+          u'CreatedAt': u'2018-09-19T09:38:41.2417052Z'
+        },
+        u'Addresses': [
+          u'10.255.0.6/16'
+        ]
+      }
+    ],
+    u'Spec': {
+      u'Placement': {
+        u'Platforms': [
+          {
+            u'OS': u'linux',
+            u'Architecture': u'amd64'
+          },
+          {
+            u'OS': u'linux'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u'arm64'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u'386'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u'ppc64le'
+          },
+          {
+            u'OS': u'linux',
+            u'Architecture': u's390x'
+          }
+        ]
+      },
+      u'ContainerSpec': {
+        u'Isolation': u'default',
+        u'Image': u'nginx:latest@sha256:24a0c4b4a4c0eb97a1aabb8e29f18e917d05abfe1b7a7c07857230879ce7d3d3',
+        u'Init': False,
+        u'DNSConfig': {
+          
+        }
+      },
+      u'Resources': {
+        u'Reservations': {
+          
+        },
+        u'Limits': {
+          
+        }
+      },
+      u'ForceUpdate': 0
+    },
+    u'CreatedAt': u'2018-09-20T09:26:44.147462426Z'
+  },
+  {
+    u'Slot': 1,
+    u'Status': {
+      u'ContainerStatus': {
+        u'PID': 0,
+        u'ContainerID': u'',
+        u'ExitCode': 0
+      },
+      u'PortStatus': {
+        
+      },
+      u'Err': u'No such image: 80:80',
+      u'Timestamp': u'2018-09-20T12:18:12.147322781Z',
+      u'State': u'rejected',
+      u'Message': u'preparing'
+    },
+    u'Labels': {
+      
+    },
+    u'NodeID': u'8kday1tlidkfijif1q887be9z',
+    u'ID': u'yquo7vlgf9a1u15hgkxogocbp',
+    u'DesiredState': u'shutdown',
+    u'Version': {
+      u'Index': 13342
+    },
+    u'ServiceID': u'lvoa3lyv82xwiq76su3k69omg',
+    u'UpdatedAt': u'2018-09-20T12:18:15.304776582Z',
+    u'Spec': {
+      u'Placement': {
+        
+      },
+      u'ContainerSpec': {
+        u'DNSConfig': {
+          
+        },
+        u'Healthcheck': {
+          u'Test': [
+            u'CMD-SHELL',
+            u'-p'
+          ]
+        },
+        u'Image': u'80:80',
+        u'Args': [
+          u'--name',
+          u'web',
+          u'nginx'
+        ],
+        u'Init': False,
+        u'Isolation': u'default'
+      },
+      u'Resources': {
+        u'Reservations': {
+          
+        },
+        u'Limits': {
+          
+        }
+      },
+      u'ForceUpdate': 0
+    },
+    u'CreatedAt': u'2018-09-20T12:18:10.115099945Z'
+  }
+]

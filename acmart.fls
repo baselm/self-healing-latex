@@ -1,0 +1,21 @@
+PWD /Users/baz/Google Drive/Self-Healing MicroService Architecture
+INPUT /usr/local/texlive/2017/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf
+INPUT /usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt
+INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.cls
+OUTPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.log
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/xkeyval/xkeyval.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/xkeyval/xkeyval.tex
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/xkeyval/xkvutils.tex
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/xkeyval/keyval.tex
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/xstring/xstring.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/xstring/xstring.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/xstring/xstring.tex
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amscls/amsart.cls
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/amscls/amsart.cls
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/pdftex/glyphtounicode.tex
+INPUT /usr/local/texlive/2017/texmf-dist/tex/generic/pdftex/glyphtounicode.tex
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/libertine/libertine.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/inconsolata/zi4.sty
+INPUT /usr/local/texlive/2017/texmf-dist/tex/latex/newtx/newtxmath.sty

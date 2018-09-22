@@ -1,0 +1,23 @@
+# Fdb version 3
+["pdflatex"] 1513442624 "/Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.cls" "/Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.pdf" "acmart" 1513442625
+  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.aux" 1513442624 8 a94a2480d3289e625eea47cd1b285758 ""
+  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.cls" 1506933360 86488 eedab77403b94bf67a929208be32e074 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/generic/pdftex/glyphtounicode.tex" 1480098815 216747 92ec6cf8e39216b4894417b5aa6f057a ""
+  "/usr/local/texlive/2017/texmf-dist/tex/generic/xkeyval/keyval.tex" 1480098819 2725 fc34ef3ccb37ba15a640e8fca6190bca ""
+  "/usr/local/texlive/2017/texmf-dist/tex/generic/xkeyval/xkeyval.tex" 1480098819 19231 26434a5656c684f5ffb1f26f98006baa ""
+  "/usr/local/texlive/2017/texmf-dist/tex/generic/xkeyval/xkvutils.tex" 1480098819 7677 6f5ce7c1124cad7ec57d05b2562bd8fe ""
+  "/usr/local/texlive/2017/texmf-dist/tex/generic/xstring/xstring.sty" 1480098819 144 0ca8d67b000b795a4d9ec000e0fd09c7 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/generic/xstring/xstring.tex" 1480098819 54373 fd4487ae3e45d4074bc89aea1d2b6807 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/amscls/amsart.cls" 1480098820 61293 a0612b81435f5a15e07db7630c3b4bb1 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/inconsolata/zi4.sty" 1483657265 4135 4ee89bedc10b53b8475600be9ab7dc91 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/libertine/libertine.sty" 1490220064 20038 e6963a66a6543b4cc5fe65727f9f1501 ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/newtx/newtxmath.sty" 1487030465 98658 3048b01e96db10048c80746cdcbf89df ""
+  "/usr/local/texlive/2017/texmf-dist/tex/latex/xkeyval/xkeyval.sty" 1480098843 4962 9c1069474ff71dbc47d5006555e352d3 ""
+  "/usr/local/texlive/2017/texmf-dist/web2c/texmf.cnf" 1494087824 32646 eadc4ca26cdbe7105ac7c593aa8c4f72 ""
+  "/usr/local/texlive/2017/texmf-var/web2c/pdftex/pdflatex.fmt" 1513330059 4129593 8985d292f764088f96a07dfe8624c665 ""
+  "/usr/local/texlive/2017/texmf.cnf" 1495593465 577 2b71d4d888f9e5560b2e99985915a9fa ""
+  "acmart.cls" 1506933360 86488 eedab77403b94bf67a929208be32e074 ""
+  (generated)
+  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.pdf"
+  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/acmart.log"
+  "acmart.log"

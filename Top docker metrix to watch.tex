@@ -1,0 +1,47 @@
+Host CPU
+An overutilized Docker host is a sign of trouble.
+An underutilized host is a sign you are wasting money.
+Host Memory
+The total memory used in each Docker host is important to know for the current operations and for capacity planning. Dynamic cluster managers like Docker Swarm use the total memory available on the host and the requested memory for containers to decide on which host a new container should ideally be launched.
+
+No, Linux didn’t eat your RAM.
+But when buffered || cached memory goes to 0 it’s time to expand the cluster.
+
+Host Disk Space
+Docker images and containers consume additional disk space. For example, an application image might include a Linux operating system and might have a size of 150-700 MB depending on the size of the base image and installed tools in the container.
+Good Docker ops clean up their disks by removing unused containers & images.
+
+Total Number of Running Containers/service 
+The current and historical number of containers is an interesting metric for many reasons. For example, it is very handy during deployments and updates to check that everything is running like before.
+
+Use anomaly detection, not threshold-based alerts
+to catch sudden container migrations that mean trouble.
+
+ Although scaling mechanisms might increase or decrease the number of containers depending on load, traffic, and other factors, the container count metric will typically be relatively steady because in such cases containers are often added and removed more gradually.
+Use modern Docker monitoring solutions
+to slice & dice by host, node, image or container.
+You’ll need that.
+Container CPU – Throttled CPU Time
+ can’t tune and optimize something if you don’t measure it, so monitoring such limits is the prerequisite. Observing the total time that a container’s CPU usage was throttled provides the information one needs to adjust the setting for CPU shares in Docker
+
+ Container Memory – Fail Counters
+ It is a good practice to set memory limits for containers. Doing that helps avoid a memory-hungry container taking all available memory and starving all other containers on the same server. For example, “-m 300M” sets the memory limit for the container to 300 MB. Docker exposes a metric called container memory fail counters. This counter is increased each time memory allocation fails — that is, each time the pre-set memory limit is hit. Thus, spikes in this metric indicate one or more containers needing more memory than was allocated. If the process in the container terminates because of this error, we might also see out of memory events from Docker.
+
+ Docker Memory Fail Counters tell you when containers need more memory.
+Alerts are your friends
+Container Memory Usage
+Different applications have different memory footprints. Knowing the memory footprint of the application containers is important for having a stable environment. Container memory limits ensure that applications perform well, without using too much memory, which could affect other containers on the same host. The best practice is to tune memory setting in a few iterations:
+
+Monitor memory usage of the application container
+Set memory limits according to the observations
+Continue monitoring of memory, memory fail counters, and Out-Of-Memory events. If OOM events happen, the container memory limits may need to be increased, or debugging is required to find the reason for the high memory consumptions.
+
+Don’t like to see your container swapping?
+Use –memory-swap=0 in the Docker run command and be done with it!
+Container Disk I/O
+
+In Docker multiple applications use the same resources concurrently. Thus, watching the disk I/O helps one define limits for specific applications and give higher throughput to critical applications like data stores or web servers, while throttling disk I/O for batch operation
+To limit a Docker container from eating all your disk IO use
+Container Network Metrics
+
+Networking for containers can be very challenging. By default all containers share a network, or containers might be linked together to share a separated network on the same host. However, when it comes to networking between containers running on different hosts an overlay network is required, or containers could share the host network. Having many options for network configurations means there are many possible causes of network errors.
