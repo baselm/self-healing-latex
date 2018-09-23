@@ -316,9 +316,6 @@ INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertine
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinBiolinumT-tlf-t1.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinBiolinumT-tlf-t1.vf
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinBiolinumT-tlf-t1--base.tfm
-INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/model.png
-INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/model.png
-INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/model.png
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-ot1.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/nxlmi.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxsy.tfm
@@ -329,10 +326,16 @@ INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/nxlmia.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxsym.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxsyc.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxexa.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-t1.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-t1.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinLibertineT-tlf-t1.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-t1--base.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinLibertineT-tlf-t1.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-t1--base.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineTI-tlf-t1.tfm
-INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/implementation.png
-INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/implementation.png
-INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/implementation.png
+INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/design.png
+INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/design.png
+INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/design.png
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/nxlmi.vf
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rfxlri-alt.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/LibertineTheta-Regular.tfm
@@ -340,11 +343,6 @@ INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txmi.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/zxlr-8r.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/zxlri-8r.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rntxmi.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinLibertineTI-tlf-t1.vf
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineTI-tlf-t1--base.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/ntxsy.vf
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/txsys.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/txex-bar.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/nxlmi7.vf
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/fxlri-7alt.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/LibertineTheta-Regular.tfm
@@ -352,11 +350,35 @@ INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rtxmi7.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/zxlr-7nums.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/fxlri-7letters.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rntxmi7.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinLibertineT-tlf-ot1.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-ot1--base.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/ntxsy.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/txsys.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/txex-bar.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/ntxsym.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txsyb.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txsya.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/txfonts/txmi.vf
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxmi.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxptmri.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/nxlmia.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rfxlr-alt.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/Libertine-nu.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txmia.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txsyc.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txr.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxexb.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rtxmio.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxsyralt.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/boondox/zxxrl7z.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/txfonts/txr.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxptmr.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxr.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/ntxexx.vf
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/txexs.tfm
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinLibertineTI-tlf-t1.vf
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineTI-tlf-t1--base.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/nxlmia.vf
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rfxlr-alt.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/Libertine-nu.tfm
@@ -377,32 +399,13 @@ INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxptmr.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxr.tfm
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinLibertineT-tlf-ot1.vf
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-ot1--base.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/libertine/LinLibertineT-tlf-ot1.vf
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/libertine/LinLibertineT-tlf-ot1--base.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/ntxsym.vf
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txsyb.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txsya.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/newtx/nxlmia.vf
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rfxlr-alt.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/Libertine-nu.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txmia.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txsyc.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/txr.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxexb.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/rtxmio.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/newtx/ntxsyralt.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/adobe/times/ptmr8r.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/boondox/zxxrl7z.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/vf/public/txfonts/txr.vf
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxptmr.tfm
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/tfm/public/txfonts/rtxr.tfm
 INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.bbl
 INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.bbl
 INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.aux
 INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.out
 INPUT /Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.out
-INPUT /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/newtx/libertinealt.enc
+INPUT /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_oexx6f.enc
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc
 INPUT /usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_7grukw.enc

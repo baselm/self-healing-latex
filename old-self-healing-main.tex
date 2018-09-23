@@ -196,26 +196,43 @@ For this aim, This research focuses on proposing a model that can continuously o
 %\section{Self-healing Microservices Architecture}
 \label{sec:modelling}
 
-To validate the ideas presented in the paper, we design and develop a working prototype of Microservice architecture in Docker swarm \footnote{https://docs.docker.com/engine/swarm/} as shown in Figure \ref{fig_imp}. The cluster consisted of many managers and many workers. To meet scalability and availability, the cluster manager distributed the work load between the workers based on Raft Consensus Algorithm \cite{ongaro2015raft}. This means that each  service could be executed by assigning multiple containers across the cluster. 
 
-The main services implemented as a distributed services are: Time series metrics database, nodes metrics used to collect metrics from all nodes in the cluster. Docker containers metrics collector, Alert and notification manager used to trigger the adaptation, reverse proxy for routing traffic between services in the cluster, Anomaly detection based on NUPIC, Adaptation manager for executing, validating the adaptation actions, and time series analytic and visualisation tool. 
- 
-\begin{figure*}[ht!] 
+
+
+To satisfy these requirements of self-adaptability in general and self-healing in specific, each cluster leaders is implemented to include three major components. To validate the ideas presented in the paper, we design and develop a working prototype of Microservice architecture in Docker swarm \footnote{https://docs.docker.com/engine/swarm/} 
+To validate the ideas presented in the paper, we design and develop a working prototype of Microservice architecture in Docker swarm \footnote{https://docs.docker.com/engine/swarm/} 
+The process can be summarised into three main steps: 
+Feature selection: which involve collecting the data generated from the swarm cluster and use influxdb feature of acyclic graph implementation to filter noisy data and forward to NUPIC only specific metric including (CPU usage, Memory, Disk Reads Bytes/sec, Network Read/s, network write/s and Disk Writes Bytes/sec). 
+Model Training: The second step is to run NUPIC Anomaly detection algorithm over the streamed data collected in Step 1. This will generate a model that will be used to detect anomaly for the incoming data streams from the swarm cluster. 
+
+After running the anomaly detection algorithm for each metric. The algorithm provides a value for the anomaly score. The anomaly score varies between 0 to 1. This gives an overall score of how confident the algorithm about the detected anomaly after running over the dataset. In addition, the algorithm provides another indicator called Anomaly Likelihood. The anomaly likelihood refers to a metric which defines how anomalous the current state is based on the prediction history calculated by the HTM model. So, the anomaly likelihood is calculated by maintaining a window of the last raw anomaly scores and then calculating the normal distribution over the last obtained values, then the most recent average of anomalies is calculated using the Gaussian tail probability function (Q-function) \cite{craig1991new}. Once their is an anomalous behaviour detected with high score of anomaly likelihood. The adaptation manager will calculate the confidence of the triggered anomaly by calculating the QOS of the anomaly score. Then, the adaptation manager will provides a set of actions like: scale in/out, add/remove nodes, add/remove managers, run security batch, or open/block ports.  
+
+The adaptation manager will tune the adaptation policy actions, resources, desired state on the fly as it use a preconfigured template for the adaptation policy. Then, the adaptation manager issues the adaptation policy to the cluster manager for execution. At this stage, the   leader and all managers in the cluster will vote based on the consensus algorithm to validate and verifies the adaptation action. If the adaptation action won the votes, the policy will be executed. If the adaptation action lost the vote, then the adaptation manager will re-initialised a new adaptation cycle.  
+
+%%%%%%%%%old 
+The process can be summarised into three main steps: 
+Feature selection: which involve collecting the data generated from the swarm cluster and use influxdb feature of acyclic graph implementation to filter noisy data and forward to NUPIC only specific metric including (CPU usage, Memory, Disk Reads Bytes/sec, Network Read/s, network write/s and Disk Writes Bytes/sec). 
+Model Training: The second step is to run NUPIC Anomaly detection algorithm over the streamed data collected in Step 1. This will generate a model that will be used to detect anomaly for the incoming data streams from the swarm cluster. 
+
+
+The Microservices architecture was implemented in Docker swarm \cite{docker_2017} as shown in Figure \ref{fig_imp}. Docker swarm refers to a cluster management and orchestration functionality embedded in Docker engine \cite{docker_2017}. Docker is an open source project aim to build a container platform to facilitate the development and deployment of an application across cloud infrastructure. The main building components of Docker is containers. A container is a lightweight, stand-alone, executable package of a software or service. The container includes everything needed to run an application in the virtualised cloud environment \cite{docker_2017}. 
+
+
+First, the context manager, this component is responsible for continuously observing and monitoring the behaviour of the architecture and collecting fine-grained metrics about the running services in the containers. The collected data are stored in an influxDB database as shown in Figure \ref{fig_model}. InfluxDB is an open-source time series database developed by InfluxData. It is meant to be used as a backing store for any use case involving large amounts of timestamped data, including DevOps monitoring, application metrics, IoT sensor data, and real-time analytic \cite{InfluxDB:uh}.
+
+
+The second component, is the a real-time anomaly detection algorithm. This component is responsible for running unsupervised machine learning algorithm based on NUPIC framework \cite{AHMAD2017134}. The collected real-time data is feed on the fly to NUPIC machine learning algorithm, which provides two features: first, contentious detection of anomalous behaviour with high accuracy. second, it also provide predictions about the architecture performance based on the collected historic data. This can alerts the architecture about incoming spike on resources demand which can be used by the adaptation manager to schedule a proactive adaptation strategy ahead of time. As shown in Figure \ref{fig_model}, the cluster consisted of many managers and many workers. To meet scalability and availability, the cluster manager distributed the work load between the workers based on Raft Consensus Algorithm \cite{ongaro2015raft}. This means that each  service could be executed by assigning multiple containers across the cluster.   
+
+
+The third component is the adaptation component. The adapter is responsible for executing adaptation strategies based on the anomaly score and the predictions generated by the NUPIC algorithm. Once the adaptation action is completed by the adaptation manager, a set of adaptation actions are deployed in the architecture. To avoid, conflicts between multiple adaptation variations, the adapter allow the adaptation actions to be fully completed and verified by the cluster leader, then it will put a cool off timer before initiating new adaptation actions. This technique is used to avoid resources thrashing and preserving the cluster state for auto-recovery.
+
+\begin{figure}[ht!] 
 \includegraphics[scale=0.4]{design}
 \caption{Microservices Architecture implemented in Docker Swarm}
 \label{fig_model}
-\end{figure*}
+\end{figure}
 
-
-The data flow in the cluster can be summarised into the following phases: 
-Metric collection: which involve collecting fine-grained metrics about cluster nodes, services, and containers including (CPU usage, Memory, Disk Reads Bytes/sec, Network Read/s, network write/s and Disk Writes Bytes/sec). The data are streamed into Anomaly detection service. 
-Model Training: The second step is to run NUPIC Anomaly detection algorithm over the streamed data collected in Step 1. This will generate a model that will be used to detect anomaly for each metric selected in Step 1. 
-
-Anomaly Detection: This component is responsible for running unsupervised machine learning algorithm based on NUPIC framework \cite{AHMAD2017134}. The collected real-time data is feed on the fly to NUPIC machine learning algorithm, which provides two features: first, contentious detection of anomalous behaviour with high accuracy. second, it also provide predictions about the architecture performance based on the collected historic data. This can alerts the architecture about incoming spike on resources demand which can be used by the adaptation manager to schedule a proactive adaptation strategy ahead of time. As shown in Figure \ref{fig_model}. The output of Anomaly detection service is predictions, anomaly score and anomaly likelihood. 
-
-Adaptation election: Once their is an anomalous behaviour detected with high anomaly score and likelihood. The Alert manager will notify the adaptation manager about the context changes. The adaptation manager select the adaptation action(s) after calculating the utility value for all actions as explained in \ref{eq_1}. Then, the adaptation manager uses the input of the anomaly likelihood, architecture constraints, and desired/predicted QoS to calculate the best variation of the adaptation that has the highest utility. 
-
- In different words, the DevOps define the policy parameters that suits the Microservice architecture, but the adaptation manager at runtime adjusts those polices on the flay based on the demand and the runtime requirements. The adjustment of the adaptation policy is a major challenge as there might a finite set of configurations and parameter tuning over unlimited number of contextual conditions. For this aim, the adaptation manager extended a multi-dimensional utility function as in \cite{KonstantinosKakousis:2008ub} to elect the best adaptation action. In this case, the adaptation action refers to any parameter-based or compositional-based configuration of the architecture, maintaining its original functional properties \cite{KonstantinosKakousis:2008ub}. The adaptation manager uses a utility function to calculate and priorities the requirements that need to be meet in the adaptation action. It is assumed that the adaptation manager provides automatic monitoring and detection of the cluster environmental condition. Once an alert is received this will triggers the adaptation manager to calculate the utility function for the context of the operational environment. 
+The adaptation manager uses dynamic parameters tuning, which makes the Microservices more adaptive to different scenarios. The adaptation manager will use a preconfigured policy issued by the DevOp and reconfigure them on the flay based on the visibility to execute the adaptation action by the consensus algorithm running in the cluster. In different words, the DevOps define the policy parameters that suits the Microservice architecture, but the adaptation manager at runtime adjusts those polices on the flay based on the demand and the runtime requirements. The adjustment of the adaptation policy is a major challenge as there might a finite set of configurations and parameter tuning over unlimited number of contextual conditions. For this aim, the adaptation manager extended a multi-dimensional utility function as in \cite{KonstantinosKakousis:2008ub} to elect the best adaptation action. In this case, the adaptation action refers to any parameter-based or compositional-based configuration of the architecture, maintaining its original functional properties \cite{KonstantinosKakousis:2008ub}. The adaptation manager uses a utility function to calculate and priorities the requirements that need to be meet in the adaptation action. It is assumed that the adaptation manager provides automatic monitoring and detection of the cluster environmental condition. Once an alert is received this will triggers the adaptation manager to calculate the utility function for the context of the operational environment. 
 From utility theory, a von Neumann-Morgenstern \cite{fishburn1979two}. Utility function  $U_{i} : X_{i} \rightarrow \mathbb{R}$ 
 assigns a real number to each quality dimension i, which we can normalize to the range [0, 1]. Across multiple dimensions, we can attribute a percentage weight to each dimension to account for its relative importance compared to other dimensions. These weights form the utility preferences. The overall utility is then given by the utility preference function $ fitness_{i}(V_{j},C_{m}) $ is calculated using the utility function in \ref{eq_1}. 
 \begin{equation}
@@ -230,31 +247,36 @@ As soon as there is contextual change is detected in the architecture, the adapt
 \end{equation}
 
 
+Mathematically, if we assume that the new context is $Context_{m}$  and the system selects variants as the optimal one, then it is implied that the selected variant has a higher (or at least equal) utility, compared to any other variant.  
  
-Adaptation execution: The adapter is responsible for executing adaptation strategies based on the anomaly score and the predictions generated by the NUPIC algorithm. Once the adaptation action is completed by the adaptation manager, a set of adaptation actions are deployed in the architecture. To avoid, conflicts between multiple adaptation variations, the adapter allow the adaptation actions to be fully completed and verified by the cluster leader, then it will put a cool off timer before initiating new adaptation actions. This technique is used to avoid resources thrashing and preserving the cluster state for auto-recovery. The adaptation manager sends the cluster leader a set of instructions that might involve tuning of the microservices configuration: tuning of microservice parameters like (CPU, Memory, Disk space, Network bandwidth), or vertical scaling of the microservices containers like scaling a service in/out. In different scenarios and based of the calculation of the utility function, the adaptation action might involve a horizontal scaling policy like add/remove nodes, add/remove managers, promote/demote a node from manager to worker. 
+ 
+\section{Experimental Evaluation}
 
-Adaptation verification: The cluster leader and all managers in the cluster will vote on the adaptation action based on the consensus algorithm \cite{ongaro2015raft}. The vote results is used to to validate and verifies the adaptation action. If the adaptation action won the votes, the adaptation action will be executed by the cluster leader. If the adaptation action lost the vote, then the adaptation manager will re-initialised a new adaptation cycle.   
+To validate the ideas presented in the paper, we design and develop a working prototype of Microservice architecture in Docker swarm \footnote{https://docs.docker.com/engine/swarm/} as shown in Figure \ref{fig_imp}. The main component implemented as a distributed services are: Time series metrics database, nodes metrics used to collect metrics from all nodes in the cluster. Docker containers metrics collector, Alert and notification manager used to trigger the adaptation, reverse proxy for routing traffic between services in the cluster, Anomaly detection based on NUPIC, Adaptation manager for executing, validating the adaptation actions, and time series analytics and visualisation tool. 
+The data flow in the cluster can be summarised into the following phases: 
+Metric collection: which involve collecting fine-grained metrics about cluster nodes, services, and containers including (CPU usage, Memory, Disk Reads Bytes/sec, Network Read/s, network write/s and Disk Writes Bytes/sec). The data are streamed into Anomaly detection service. 
+Model Training: The second step is to run NUPIC Anomaly detection algorithm over the streamed data collected in Step 1. This will generate a model that will be used to detect anomaly for each metric selected in Step 1. 
+Anomaly Detection: The output of Anomaly detection is anomaly score and anomaly likelihood. 
+Adaptation election: Once their is an anomalous behaviour detected with high anomaly score and likelihood. The Alert manager will notify the adaptation manager about the context changes. The adaptation manager select the adaptation action(s) after calculating the utility value for all actions as explained in \ref{eq_1}. Then, the adaptation manager uses the input of the anomaly likelihood, architecture constraints, and desired/predicted QoS to calculate the best variation of the adaptation that has the highest utility. 
+
+Adaptation execution: the adaptation manager sends the cluster leader a set of instructions that might involve fine-grained tuning of the microservices configuration: tuning of microservice parameters like (CPU, Memory, Disk space, Network bandwidth), or vertical scaling of the microservices containers like scaling a service in/out. In different scenarios and based of the calculation of the utility function, the adaptation action might involve a horizontal scaling policy like add/remove nodes, add/remove managers, promote/demote a node from manager to worker. 
+
+Adaptation verification: The cluster leader and all managers in the cluster will vote based on the consensus algorithm to validate and verifies the adaptation action. If the adaptation action won the votes, the policy will be executed. If the adaptation action lost the vote, then the adaptation manager will re-initialised a new adaptation cycle.  
  
+
+\subsection{Evaluation and results} 
+\label{sec:evaluation}
 The evaluation of this model will come in two folds: First, evaluating the accuracy of the anomaly detection algorithms using confusion matrix \cite{kohavi1998confusion}.
 Second, evaluating the constancy of the adaptation action and evaluating the state of the swarm after executing the adaptation action. The rate between successful adaptation against failed adaptation is calculated. 
 
-\subsection{Results} 
-\label{sec:evaluation}
-A full visualised and analytic dashboard are provided as snapshot in \footnote{goo.gl/pGVmwZ}, as shown in Figure \ref{fig_services}. The swarm currently offers many services including the adaptation manager, which contains the NUPIC machine learning and the adaptation executer. The CPU usage for each node in the swarm is shown in Figure \ref{fig_nodes}. The evaluation of the effectiveness of this model will be based on calculating a utility function for a specific metric, then calculates the number of attempts the adaptation manager made to achieve the desired state and how it manage to preserve the cluster state so there was no error caused by the adaptation manager that leads the cluster to be inconsistent and needs a recovery process. For this aim, first we run a stress test in the cluster manager until its CPU reaches 70\%, which will triggers an alert to the adaptation manager. The utility function will be calculated for CPU, Memory,  
-
-\begin{figure}[ht!] 
-\includegraphics[scale=0.225]{nodes}
-\caption{CPU usage by nodes}
-\label{fig_nodes}
-\end{figure}
- 
- \begin{figure}[ht!] 
-\includegraphics[scale=0.225]{services}
-\caption{Microservices Tasks}
-\label{fig_services}
-\end{figure}
+\subsection{Evaluation Anomaly Detection Accuracy}
 A famous technique for evaluating the anomaly detection system is the use of a confusion matrix \cite{kohavi1998confusion}. Kohavi et al. \cite{kohavi1998confusion} show the criteria for the confusion matrix which represents the total number of records inspected by the intrusion detection system as shown in Table \ref{Table_1}. The matrix, which represents the relationship between the actual levels of normal behaviour and the detected level of normal behaviour by the algorithm. Also, it represents the relationship between the actual anomaly recorded in the system and the predicted/identified anomaly that the algorithm identified as anomalous behaviour.  In addition, the matrix provides a summary of the evaluation parameters including True Positive (TP), True Negative (TN), False Positive (FP), and False Negative (FN).  
  
+In case of our proposed model, the NUPIC algorithm will be used to inspect the data set. If NUPIC considered a specific record as anomalous and it was an actual anomaly then this attempt is classified as a \textbf{True Positive}. If NUPIC classifies the data as normal behaviour and it was normal data then this attempt is classified as \textbf{True Negative}. If NUPIC classifies an anomalous behaviour as normal behaviour this means that NUPIC failed to detect anomaly. In the case, this attempt is classified as \textbf{False Negative}. If NUPIC classifies the data as anomalous behaviour but the data was normal behaviour then this attempt is considered a False Alarm/\textbf{False Positive}. Both True Positive and False Positive are important benchmark to measure the accuracy of intrusion detection systems. 
+
+After calculating the values of TP, TN, FP, and FN, for our proposed algorithm, the confusion matrix will be used to calculate the model detection rate, false positive, and accuracy. Those results will be compared against a well-known anomaly detection system called SNORT as shown in \ref{Table_3}.   
+
+A manual inspection of  a sample data of 1,528 records are used to evaluate the accuracy of anomaly detection in this experiment.  
 \begin{table}[h!]
 \centering
 
@@ -273,19 +295,47 @@ A famous technique for evaluating the anomaly detection system is the use of a c
 }
 \end{table}
 
- 
- 
- 
-In case of our proposed model, the NUPIC algorithm will be used to inspect the data streams. If NUPIC considered a specific record as anomalous and it was an actual anomaly then this attempt is classified as a \textbf{True Positive}. If NUPIC classifies the data as normal behaviour and it was normal data then this attempt is classified as \textbf{True Negative}. If NUPIC classifies an anomalous behaviour as normal behaviour this means that NUPIC failed to detect anomaly. In the case, this attempt is classified as \textbf{False Negative}. If NUPIC classifies the data as anomalous behaviour but the data was normal behaviour then this attempt is considered a False Alarm/\textbf{False Positive}. Both True Positive and False Positive are important benchmark to measure the accuracy of intrusion detection systems. Table \ref{Table_1} summarizes the values used for evaluating the anomaly detection algorithm we used in this paper.
+ \begin{table}[h!]
+\centering
 
+\caption{Results of the SNORT anomaly detection on confusion matrix}
+\resizebox{\columnwidth}{!}{ 
+\label{Table_2}
+ \begin{tabular}{|c|c|c|}
+        \hline
+        X= 1528   & Predicted anomalies & Predicted normality \\
+        \hline
+        Actual anomalies (TP + FN) (55) & TP = 32   & FN = 23 \\
+        \hline
+        Actual normalies (FP + TN) (1473)& FP/ False Alarm = 62 & TN = 1411   \\
+        \hline
+        \end{tabular}
+}
+\end{table}
+
+ 
+ 
+ 
+After inspecting the sample data, NUPIC identified 49 True Positives (TP) out of 55 simulated DDOS attacks. The False Positive (FP) was significantly low and it was 38 out of 1473 as shown in Table \ref{Table_1}. 1435 records were identified by NUPIC as normal behaviour and they were indeed normal traffic generated from accessing the services running on the Docker swarm. However, NUPIC identified 6 records as False Negatives (FN), which means there was an anomalous attack but NUPIC failed to detect it. The overall accuracy refers to how often the model is correctly identifying anomalous behaviour and it can be computed using the following formula: 
+\[ Accuracy=  (TP+TN)/x \]
+
+Based on the values outlined in Table \ref{Table_1}, the accuracy of the proposed model equals to $Accuracy=  (49 +1435)/1528=0.97$, and this indicates that the proposed model is highly accurate in detecting anomalies. This value of accuracy is very significant compared with the anomaly detection system of SNORT as shown in Table \ref{Table_2}. The misclassification of the proposed model can be calculated by the following formula: 
+\[ Misclassification =  (FP+FN )/x \] So, the proposed model misclassification can be calculated using the above formula and it equals $6 + 38/1528, \; Misclassification = 6.0287$.
+The True Positive (TP) rate refers to the sensitivity of the model and it can be calculated using the following formula:
+\[TP \;  rate=  TP/(number of actual anomalies records in x)\]
+Based on the above equation the $TP \; rate = 49/55 = 0.89$. This means the proposed model is significantly accurate in detecting anomalies in the Docker swarm. The False Positive rate of the model can be computed using the following formula: 
+\[FP \;  rate =FP/(number of actual normal records in x)\]
+So, the $FP \; rate = 38/1437=0.0264.$. This means the model has very low false alarms when detecting anomalies. The FP rate also indicates the model has a high level of accuracy in detecting anomalous behaviour. The specificity of the model-or True Negative- refers to the ratio of correct alarms or anomaly detection rate and it can be computed using the following formula: 
+\[TN \; rate=TN/(number of actual normal records in x)\]
+So, the ratio of correct alarms of the proposed model can be calculated using the above formula and it is equal to $TN \;  rate=1435/1437=0.998$. This is the model detection rate and it is a great indicator that the model is significantly accurate. The proposed model for precision can be computed using the following formula: 
+\[Precision=  TP/(number of predicted anomalies in x)\]
+The precision model equals $Precision=9/55=0.89$. Finally, the prevalence of the model can be computed using the following formula: 
+\[Prevalence=(Actual anomalies)/x\]
+So, the prevalence equals $55/1528=0.03599$ and this makes it equal to $0.03599$
 
 \section{Discussion}
-
- 
-
-After calculating the values of TP, TN, FP, and FN for our proposed algorithm, the confusion matrix will be used to calculate the model detection rate, false positive, and accuracy. Those results will be compared against a well-known anomaly detection system called SNORT implemented in the cluster architecture (See Figure \ref{fig_model}). Based on the above calculation of SNORT and NUPIC anomaly detection, it was found that the proposed model of using NUPIC performs significantly better in terms of the detection rate, false alarms, and accuracy. The false alarm rate in the model (0.0264) is lower than SNORT (1,12). In addition, the model provides a high rate of true alarms and anomaly detection as summarised in Table \ref{Table_3}   
-
-
+\label{sec:res} 
+Based on the above calculation of SNORT and NUPIC anomaly detection, it was found that the proposed model of using NUPIC performs significantly better in terms of the detection rate, false alarms, and accuracy. The false alarm rate in the model (0.0264) is lower than SNORT (1,12). In addition, the model provides a high rate of true alarms and anomaly detection as summarised in Table \ref{Table_3}   
 \begin{table}[h!]
 \centering
 \footnotesize
