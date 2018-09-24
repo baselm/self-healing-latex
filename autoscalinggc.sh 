@@ -2,7 +2,7 @@
 
 
 for i in 1 2 3 4 5; do
-  docker-machine create --driver google   --google-project selfhealing-216620   --google-zone europe-west2-a   --google-machine-type n1-highcpu-2 swarm-$i
+  docker-machine create --driver google --google-project selfhealing-216620 --google-zone europe-west2-a   --google-machine-type n1-highcpu-2 swarm-$i
 done
 
 eval $(docker-machine env swarm-1)
