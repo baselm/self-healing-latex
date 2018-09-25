@@ -1,14 +1,14 @@
 # Fdb version 3
-["bibtex self-healin-main"] 1537758003 "self-healin-main.aux" "self-healin-main.bbl" "self-healin-main" 1537758007
+["bibtex self-healin-main"] 1537840257 "self-healin-main.aux" "self-healin-main.bbl" "self-healin-main" 1537840319
   "./ACM-Reference-Format.bst" 1505937654 81890 d0c962ee7b00c892f073ec6439091590 ""
-  "self-healin-main.aux" 1537758006 9261 ee68afbc68137cff59c0fd2a5941ebb1 ""
+  "self-healin-main.aux" 1537840318 9313 57a028cedfb7107c23a45a5af1831f48 ""
   "selfhealingv2.bib" 1537757389 128076 4f4027660171368474144b868c6b55c7 ""
   (generated)
   "self-healin-main.bbl"
   "self-healin-main.blg"
-["pdflatex"] 1537758004 "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.tex" "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.pdf" "self-healin-main" 1537758007
-  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.aux" 1537758006 9261 ee68afbc68137cff59c0fd2a5941ebb1 ""
-  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.tex" 1537758000 53054 abfe57b228ab7be730d8777a97998451 ""
+["pdflatex"] 1537840316 "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.tex" "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.pdf" "self-healin-main" 1537840319
+  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.aux" 1537840318 9313 57a028cedfb7107c23a45a5af1831f48 ""
+  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.tex" 1537840253 52006 4a7ca56f26f55c58a30808f226f7f8bb ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/base/8r.enc" 1480098666 4850 80dc9bab7f31fb78a000ccfed0e27cab ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_25tcsq.enc" 1490133665 2921 8ca0eb0831f9bc5da080d3697cfe67bf ""
   "/usr/local/texlive/2018/texmf-dist/fonts/enc/dvips/libertine/lbtn_76gpa5.enc" 1490133665 2933 9ad527ce78d7c5fa0a642dead095f172 ""
@@ -215,16 +215,17 @@
   "/usr/local/texlive/2018/texmf.cnf" 1523934483 577 0b39adfd7c93507ff20c9c14c2f1a33f ""
   "ScalingService.png" 1537749256 28798 569da42da42f7e91eb833dc125937d08 ""
   "acmart.cls" 1506933360 86488 eedab77403b94bf67a929208be32e074 ""
-  "demand.png" 1537749605 692980 1435799148f2bdbfe0ea604aafea8ee6 ""
+  "changes.png" 1537839872 219245 9eced9fd475e81a54d839947a471f9c1 ""
+  "demand.png" 1537840313 703824 43e9e19e9eb8e78bf90b8c5178b8892e ""
   "design.png" 1537661307 38498 90d36f7db7329fe7e3866e23f7d32e63 ""
-  "self-healin-main.aux" 1537758006 9261 ee68afbc68137cff59c0fd2a5941ebb1 ""
-  "self-healin-main.bbl" 1537758004 20886 0e0986c6f7464de4de05132a33dee455 "bibtex self-healin-main"
-  "self-healin-main.out" 1537758006 983 f751a1cf5b42e5c6d0fd86751904e9e2 ""
-  "self-healin-main.tex" 1537758000 53054 abfe57b228ab7be730d8777a97998451 ""
+  "self-healin-main.aux" 1537840318 9313 57a028cedfb7107c23a45a5af1831f48 ""
+  "self-healin-main.bbl" 1537840257 20552 7ce33151fb30170f669f0b7ee9c7bce0 "bibtex self-healin-main"
+  "self-healin-main.out" 1537840318 983 ad06dfafd90342aadb9e7f1463a9ec9c ""
+  "self-healin-main.tex" 1537840253 52006 4a7ca56f26f55c58a30808f226f7f8bb ""
   (generated)
-  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.pdf"
-  "self-healin-main.pdf"
   "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.log"
-  "self-healin-main.out"
   "self-healin-main.log"
+  "self-healin-main.pdf"
+  "self-healin-main.out"
   "self-healin-main.aux"
+  "/Users/baz/Google Drive/Self-Healing MicroService Architecture/self-healin-main.pdf"
