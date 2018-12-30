@@ -1,0 +1,88 @@
+
+
+In another scenario, we simulated Distributed Denial of Service attack to a web service running in the swarm, to verify that the adaptation manager will be able to accommodate the DDOS attack by adding more replicas to the service. In this case, we wish to verify the ability of the proposed model to dynamical adjust the number of service's replicas against the variations of the CPU usage and to maintain an acceptable response time of the web service. At the same time, it is very important that the adaptation action would not scale the service endlessly. So the utility cost is calculated to count the number of replicas needed. The outcome of this experiments is shown in Figure \ref{fig_Scale}. The figure show how the number of scaled replicas are tuned linearly against the CPU usage. Also, it shows the number of steps taken by the adaptation manager to execute the scaling policy in/out. The adaptation manager counts the utility of the CPU metric and the utility cost to define the number of added/removed replicas. The adaptation manager waits for receiving a high utility value by sending heartbeat signal to get the latest value of utility dimension and cost every 20s for a window of 300s. Once the utility of the CPU get the highest utility dimension, the adaptation manager calculates the number of replicas to be added/removed to the service. Also, the number of steps needed to achieve the desired state are counted as shown in Figure \ref{fig_Scale}. The number of steps needed to perform the adaptation varies based on the severity and variation of the utility cost over time. Once the adaptation is applied and verified by winning the consensus algorithm votes, the service will be scaled and the adaptation manager puts a cool off timer of 300s before initiating new adaptation action. Also, it reset the steps timer. 
+
+The accuracy of the utility cost, rate of changes, and the maximum utility dimension are vital for the success of the adaptation process. So, Figure \ref{fig_changes} depicts the calculation of the rate of changes and the utility cost to reach the desired number of nodes/replicas needed. We find the calculation accurately satisfies the adaptation objectives and provides the architecture with accurate calculation of the needed number of nodes/replicas. As shown in Figure \ref{fig_changes}, the number of nodes increases at the right time when the CPU demand spikes, then the number of nodes/replicas reduced just before the CPU demand is declined significantly as shown in Figure \ref{fig_changes}. The rate of changes in CPU usage declined so the Utility cost return negative value for the required number of nodes/replicas as long they are above the minimum number of nodes/replicas specified by the Dev-Ops. Also, as shown in Figure \ref{fig_changes} The utility cost normalizes and tunes the CPU demand. This provides a great evidence that the employment of the utility dimension provides the adaptation cycle a dynamic variability over the needed/allocated resources. Instead off scaling the architecture in/out according to a static threshold. 
+
+The accuracy of the anomaly score and likelihood plays an important role for the successes the proposed model. So, in the following we will evaluate the accuracy of the anomaly detection algorithm implemented in this model. A famous technique for evaluating anomaly detection algorithm is the use of a confusion matrix \cite{kohavi1998confusion}. The confusion matrix represents the total number of records inspected by algorithm as shown in Table \ref{Table_1}. The matrix represents the relationship between the actual levels of normal behaviour and the detected level of normal behaviour by the algorithm. Also, it represents the relationship between the actual anomaly recorded in the system and the predicted/identified anomaly that the algorithm identified as anomalous behaviour.   
+ \section{Discussion}
+\label{sec:disc}
+
+In case of our proposed model, If NUPIC anomaly detection considered a specific record as anomalous and it was an actual anomaly then this attempt is classified as a \textbf{True Positive}. If NUPIC classifies the data as normal behaviour and it was normal data then this attempt is classified as \textbf{True Negative}. If NUPIC classifies an anomalous behaviour as normal behaviour this means that NUPIC failed to detect anomaly. In the case, this attempt is classified as \textbf{False Negative}. If NUPIC classifies the data as anomalous behaviour but the data was normal behaviour then this attempt is considered a False Alarm/\textbf{False Positive}. Both True Positive and False Positive are important benchmark to measure the accuracy of intrusion detection systems. Table \ref{Table_1} summarizes the values used for evaluating the anomaly detection algorithm we used in this paper. The confusion matrix will be used to calculate the model detection rate, false positive, and accuracy. Those results will be compared against SNORT \footnote{https://snort.org} \cite{roesch1999snort}. SNORT is implemented as a container in the leader node of the cluster (see Figure \ref{fig_model}). Based on the calculations of NUPIC anomaly detection shown in Table \ref{Table_1} and Snort in Table \ref{Table_2}, it was found that our proposed model of using NUPIC performs significantly better in terms of the detection rate, false alarms, and accuracy. The false alarm rate in the model (0.0264) is lower than SNORT (1,12). In addition, the model provides a high rate of true alarms and anomaly detection as summarised in Table \ref{Table_3}. The equations used in this evaluation are listed in \ref{Table_3}.    
+ 
+\begin{table}[h!]
+\centering
+\caption{Results of the proposed anomalies detection model on confusion matrix}
+\resizebox{\columnwidth}{!}{ 
+\label{Table_1}
+ \begin{tabular}{|c|c|c|}
+        \hline
+        X= 1528   & Predicted anomalies & Predicted normality \\
+        \hline
+        Actual anomalies (TP + FN) (55) & TP = 49   & FN = 6 \\
+        \hline
+        Actual normalies (FP + TN) (1473)& FP/ False Alarm = 38 & TN = 1435   \\
+        \hline
+        \end{tabular}}
+\end{table}
+\begin{table}[h!]
+\centering
+\caption{Results of the SNORT anomaly detection on confusion matrix}
+\resizebox{\columnwidth}{!}{ 
+\label{Table_2}
+ \begin{tabular}{|c|c|c|}
+        \hline
+        X= 1528   & Predicted anomalies & Predicted normality \\
+        \hline
+        Actual anomalies (TP + FN) (55) & TP = 32   & FN = 23 \\
+        \hline
+        Actual normalies (FP + TN) (1473)& FP/ False Alarm = 62 & TN = 1411   \\
+        \hline
+        \end{tabular}
+}
+\end{table}
+\begin{table}[h!]
+\centering
+\footnotesize
+\caption{Comparison between SNORT Anomaly Detection and the Proposed Model}
+\label{Table_3}
+\begin{tabular}{|p{2cm}|c|c|p{4cm}|}
+ \hline 
+ Rate & NUPIC & SNORT & Result \\ 
+ \hline 
+ Accuracy  & 0.97 & 0.944 &  Implementation of NUPIC provides better accuracy $Accuracy=(TP+TN)/x$, over the SNORT anomaly detection. \\ 
+ \hline 
+ Misclassification  & 0.0287 & 0.0554 & The rate of false alarms is lower in the proposed model compared with SNORT. The Misclassification is calculated using $Misclassification=(FP+FN )/x$ \\ 
+ \hline 
+ True Positive Rate (TP)  & 0.89 & 0.58 & $TP\;rate=TP/(Actual\;anomalies\;in\;x)$. The rate of true alarms in the model is significantly better than SNORT. \\ 
+ \hline 
+ False Positive (FP)/ False Alarm & 0.0264 & 1.12 & The proposed model has a lower rate of incorrect classification of attacks calculated using $FP \;rate =FP/(Actual\;in\;x)$, but SNORT has a higher rate of not detecting attacks and considering them as normal behaviour \\ 
+ \hline 
+ True Negative (TN & 0.998 & 0.981 & Both models- SNORT and the proposed model- have a good rate of detecting the normal behaviour of the system as calculated by $TN\;rate=TN/(Actual\;in\;x)$. However, the proposed model provides better results.  \\ 
+ \hline 
+ Precision  & 0.89 & 0.58 & The precision $Precision=TP/(Predicted\;anomalies\;in\;x)$, of the proposed model is far better than SNORT. The gap between the two models is clear. \\ 
+ \hline 
+ Prevalence  & 0.03599 & 0.03599 & Both models have the same prevalence rate calculated by $Prevalence=(Actual\;anomalies)/x$ as the DDOS was simulated as part of the experiment. \\ 
+ \hline 
+ \end{tabular} 
+\end{table}
+
+The values in Table \ref{Table_3} clearly show that the proposed model performs better in terms of false alarms, detection rate, and accuracy. A further calculation, as shown below, could provide a better idea of the performance of the proposed model. The detection rate of SNORT is $32/((32+62) )=0.340$ and this indicates that the proposed model has a better detection rate, as the proposed model used a machine-learning algorithm to build a model about the data and provides a prediction for each value. Those factors improve the detection rate compared with SNORT, which used a rule-based engine to match the incoming traffic and pre-configured rules. 
+
+The False Alarm of the proposed model  is $0.0257$. This indicates that the proposed model has a very low rate of providing a false alarm or identifying normal behaviour as anomalous. In the contrast, the false alarm for SNORT is $62/((62+1411))=0.042$. This value is a clear indication that SNORT would provide more false alarms about normal traffic in the system. This is due to the fact that SNORT considers one factor of identifying an anomaly which is the network traffic. In contrast, the proposed model continuously observed and learned the behaviour of so many performance criteria about the cluster in addition to the network traffic. 
+
+
+
+
+The overall accuracy of the proposed model is $0.97$. The accuracy of SNORT is 0.944, due to the fact that SNORT is continuously monitoring the system network, but it has no means of understanding the behaviour of the system. The proposed model builds an accurate model of the system behaviour so it has better insight into any fluctuations or spikes in the data. This feature is considered to be very important for the success of the adaptation strategy and the self-healing property of the Microservices architecture. 
+
+However, we believe that this model manages to offer the Microservices architecture with continuous monitoring, continuous detection of anomalous behaviour, and provides the architecture with dynamic decision making based on the employment of multidimensional utility-based model. The results in above, shows high accuracy in detecting the anomaly and an accurate calculation of variant adaptation actions. It Also shows high success rate in performing horizontal and vertical autoscaling in response to contextual changes. 
+
+
+ \section{Conclusions and Future Work}\label{sec:Conclusion}
+ Anomaly Detection using statistical approaches are not suitable for Microservices Architecture. It is difficult to determine the thresholds of a virtualised resources, which can be used to perform scaling or configuration policies. 
+Also, it is difficult to have an accurate profile of Microservices cluster that has an accurate distribution among all measures found in the cluster. Real-time data streams introduces big challenges for machine learning algorithms as data streams are often found with massive volumes and high velocities. 
+
+Finally, this paper provides an architecture model that guarantees a continuous monitoring and observing of Microservices architecture. Also, it employs a mechanism for real-time unsupervised anomaly detection algorithm, which offers high accuracy of detecting normal and abnormal behaviour of the architecture. The uses of multidimensional utility-based model enables the architecture to dynamically elect a reasoning approach based on the highest utility dimension of context changes in the operational environment. The self-healing property is achieved by parameter tuning of the running services and dynamic adjustment of the swarm cluster. We believe integrating utility theory in the decision making process improves the effectiveness of the adaptation and reduces the adaptation risk including resources over-provisioning and thrashing. Also, it preserving the cluster state by preventing multiple adaptation to take place at the same time. Enabling a prediction over the metrics of the operational resources enables the architecture to schedule a proactive adaptation actions. 
+
+This model requires further improvement with regard to services compositions, and decentralised decision making. A complete decentralisation of the adaptation manager, as it is currently implemented as a central component in the leader node. Also, this model requires an enhanced mechanism of run-time configurations, as it supports currently parameter tuning of the architecture configurations. Also, the current implementation of NUPIC requires multiple implementations for each contextual changes. NUPIC has no support for swarming (model training) over multiple variables data model. Finally, we believe the ability of the Microservices to self-heal itself is achievable, but a major question stands related to how we could evaluate the self-healing property of Microservice architecture. This question require further investigation to find applicable runtime evaluation mechanisms.    

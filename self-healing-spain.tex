@@ -1,0 +1,178 @@
+%%%%%%%%%%%%%%%%%%%% author.tex %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% sample root file for your "contribution" to a contributed volume
+%
+% Use this file as a template for your own input.
+%
+%%%%%%%%%%%%%%%% Springer %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% RECOMMENDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[graybox]{svmult}
+
+% choose options for [] as required from the list
+% in the Reference Guide
+\usepackage{amsmath}
+\usepackage{mathptmx}       % selects Times Roman as basic font
+\usepackage{helvet}         % selects Helvetica as sans-serif font
+\usepackage{courier}        % selects Courier as typewriter font
+\usepackage{type1cm}        % activate if the above 3 fonts are
+                            % not available on your system
+%
+\usepackage{makeidx}         % allows index generation
+\usepackage{graphicx}        % standard LaTeX graphics tool
+                             % when including figure files
+\usepackage{multicol}        % used for the two-column index
+\usepackage[bottom]{footmisc}% places footnotes at page bottom
+\usepackage{graphicx}
+
+% see the list of further useful packages
+% in the Reference Guide
+\usepackage{amsmath}
+\makeindex             % used for the subject index
+                       % please use the style svind.ist with
+                       % your makeindex program
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title*{Self Healing Microservices Architecture: A case study in Docker Swarm Cluster}
+% Use \titlerunning{Short Title} for an abbreviated version of
+% your contribution title if the original one is too long
+\author{Basel Magableh and Luca Longo}
+% Use \authorrunning{Short Title} for an abbreviated version of
+% your contribution title if the original one is too long
+\institute{Basel Magableh \at Dublin Institute of Technology, Kevien Street, Dublin, Ireland, \email{basel.magableh@dit.ie}
+\and Luca Longo \at Dublin Institute of Technology, Kevien Street, Dublin, Ireland \email{luca.longo@dit.ie}}
+%
+% Use the package "url.sty" to avoid
+% problems with special characters
+% used in your e-mail or web address
+%
+\maketitle
+
+\abstract*{Services running in Microservices cluster could be scaled in/out based on the demand issued by end-users, orchestration algorithm, or load balancer running on the cluster leader. The behaviour of Microservices architecture is continuously changing overtime, which makes it a challenging task to use a statistical model to identify normal and abnormal behaviour of the running services. The performance of the cluster nodes could fluctuate around the demand to accommodate scalability, orchestration and load balancing demands. 
+ This requires a model that is able to detect anomalies in real-time and generate a high rate of accuracy in detecting any anomalies and a low rate of false alarms. At the same time, it requires dynamic policy configuration that can be used to adapt the recent changes in the operational environment. This paper focuses on proposing a self-healing Microservices architecture, that is able to continuously monitor the operational environment, detects and observes anomalous behaviour, and provides a reasonable adaptation policy using multidimensional utility-based model. We argue in this paper that such model could offer self-scaling of Microservices architecture and adapt the sudden changes in the operational environment. The self-healing property is achieved by means of parameter tuning and dynamic adjustment of the cluster configuration. We believe integrating utility theory in the dynamic decision-making process improves the effectiveness of the adaptation and reduces the adaptation risk including resources over-provisioning and thrashing. Also, it preserving the cluster state by preventing multiple adaptation to take place at the same time.}
+
+\abstract{Services running in Microservices cluster could be scaled in/out based on the demand issued by end-users, orchestration algorithm, or load balancer running on the cluster leader. The behaviour of Microservices architecture is continuously changing overtime, which makes it a challenging task to use a statistical model to identify normal and abnormal behaviour of the running services. The performance of the cluster nodes could fluctuate around the demand to accommodate scalability, orchestration and load balancing demands. 
+ This requires a model that is able to detect anomalies in real-time and generate a high rate of accuracy in detecting any anomalies and a low rate of false alarms. At the same time, it requires dynamic policy configuration that can be used to adapt the recent changes in the operational environment. This paper focuses on proposing a self-healing Microservices architecture, that is able to continuously monitor the operational environment, detects and observes anomalous behaviour, and provides a reasonable adaptation policy using multidimensional utility-based model. We argue in this paper that such model could offer self-scaling of Microservices architecture and adapt the sudden changes in the operational environment. The self-healing property is achieved by means of parameter tuning and dynamic adjustment of the cluster configuration. We believe integrating utility theory in the dynamic decision-making process improves the effectiveness of the adaptation and reduces the adaptation risk including resources over-provisioning and thrashing. Also, it preserving the cluster state by preventing multiple adaptation to take place at the same time.}
+
+\section{Introduction}
+\label{sec:1}
+A Microservices architecture could be defined in the context of a service-oriented architecture as a composition of tiny fine-grained distributed loosely coupled building blocks of software components \cite{stubbs2015distributed}. Microservices improve software modularity and make the application easy to develop and maintain. However, With the rapid development of cloud infrastructures and virtualisation techniques, a high demand for building Microservices architectures in a complete virtualised environment has emerged. This need was met by introducing containers engine like Docker \footnote{https://www.docker.com} as well as cluster management framework such as Docker swarm \footnote{https://docs.docker.com/engine/swarm/}.  
+The performance of Microservices running in cluster mode could fluctuate around the demand to accommodate scalability, orchestration and load balancing offered by the cluster leader \cite{stubbs2015distributed}. In their daily base tasks,  many Dev-Ops face an issue of defining and identifying a threshold which can be used to identify a network, system or user activity as normal behaviour. Another challenge that exist in Microservices clusters is the ability to dynamically scale horizontally, (i.e. adjusting the number of nodes participating in the cluster), or vertically (i.e. adjusting the computational resources available for the services). In addition to this, it is not possible to configure auto scaling policy that could be used by the cluster leader to perform resilient and autonomous reasoning to achieve the desired QoS of the architecture. 
+
+Nowadays, cluster management technology does not embed a component that can guarantees continuous monitoring and adaptation of the operation environment and that can offer the architecture dynamic and self-adaptive capability to perform  changes at run-time. To achieve such a high level of scalability, a swarm cluster, for instance, should have a component for continuously monitoring the cluster and a component for adaptation that can implement a reasonable reaction/scaling policy to accommodate the changes in the operating environment. This presents a challenge to build a self-healing microservices architecture that can dynamically adjust its own behaviour and heal itself against anomalous behaviour detected at real-time. Self-healing refers to a property of a self-adaptive software to have the capability of discovering, diagnosing and reacting to disruptions. It can also anticipate potential problems and, accordingly, take proper actions to prevent a failure \cite{Salehie:2009p3693}. To achieve a high level of  self-healing it is necessary to have four major functionalities at run-time: 1) Monitoring and detecting events (contextual changes), 2) Context reasoning (dynamic decision making), 3) Adaptation strategies, 4) validation and verification of the adaptation action \cite{Kapitsaki:2009p3694}.  
+
+%This research focuses on the proposal of a model that can continuously observe and monitor microservices architectures and can detect anomalous behaviour with high accuracy with a minimal low rate of false alarms. At the same time, this model is envisioned to respond to true positive alarms by suggesting a set of adaptation policies (adaptation strategy) using a multi dimensional utility-based model, which can be used by the architecture to select the best adaptation strategy.
+
+The proposed model in this paper offers Microservices architecture a self-healing property by providing a mechanism for continuous monitoring, context detecting of anomalous behaviour using real-time unsupervised anomaly detection algorithm, dynamic decision making using a multidimensional utility based model, enabling dynamic adaptation horizontally or vertically based on the demand and the changes of the operational environment, and runtime verification and validation of the fitness of proposed adaptation strategy. We argue that the self-healing attribute of Microservices architecture is achieved by leveraging parameter tuning and dynamic decision-making supported by an accurate anomaly detection of Microservices architecture. 
+
+This paper is structured as follows: Section \ref{sec:related-work} provides an overview of self-healing architectures and surveys the approaches for  anomaly detection, and run-time configurations. Section \ref{sec:modelling} presents a model that can continuously observe Microservice architectures with Self-healing capabilities. Section \ref{sec:evaluation} proposes a strategy for analysing and evaluating the capability of the model  to detect anomalous behaviours and to trigger suitable adaptation actions. Section \ref{sec:disc} is focused on results found followed a by a critical discussion of the effectiveness of this model. Section \ref{sec:Conclusion} summarises this research, highlighting its contribution and setting future work.
+
+
+\section{Design and methodology}
+%\section{Self-healing Microservices Architecture}
+\label{sec:modelling}
+\subsection{Self-healing Microservices Architecture}
+One important aspect of a self-healing Microservices architecture is the ability to continuously monitor the operational environment, detect and observe anomalous behaviour, and provide a reasonable policy for self-scaling, self-healing, and self-tuning the computational resources to adapt a sudden changes in its operational environment dynamically at rune-time.  
+\begin{figure*}[!ht] 
+\includegraphics[scale=0.5]{design.png}
+\caption{Microservices Architecture implemented in Docker Swarm}
+\label{fig_model}
+\end{figure*}
+
+To validate the ideas presented in this paper, we design and develop a working prototype of Microservice architecture in Docker swarm \footnote{https://docs.docker.com/engine/swarm/} as shown in Figure \ref{fig_model}. The cluster consisted of many managers and workers. Each cluster has one leader. To meet scalability and availability, the cluster leader distributed the work load between the workers based on Raft Consensus Algorithm \cite{ongaro2015raft}. This means that each service could be executed by assigning multiple containers across the cluster's nodes. 
+
+The main services implemented in this architecture are: Time series metrics database for context collection, Nodes metrics used to collect metrics from all nodes in the cluster, Alert and notification manager used to notify the adaptation manager about contextual changes offered by  Prometheus framework \footnote{https://prometheus.io}. Docker containers metrics collector for collecting fine-grained metrics about all running containers in all nodes \footnote{https://github.com/google/cadvisor}. Reverse proxy for routing traffic between all services in the cluster \footnote{https://caddyserver.com/docs/proxy}. Unsupervised Real-time Anomaly Detection based on NUPIC \footnote{http://nupic.docs.numenta.org/stable/index.html}, Adaptation manager for executing, validating the adaptation actions developed as a prototype of this research. Time series analytic and visualisation dashboard for observing the behaviour of the Microservices cluster \footnote{https://grafana.com}. 
+ 
+This model offering the Microservices architecture with the following functionalities: 
+
+\textbf{Metric collection}: Continuous collection of fine-grained metrics about cluster nodes, services, and containers including (CPU usage, Memory, Disk Reads Bytes/sec, Network Read/s, network write/s and Disk Writes Bytes/sec). The data are streamed into anomaly detection service at real-time. 
+
+\textbf{Model Training}: The NUPIC anomaly detection service \cite{AHMAD2017134} is continuously running over the streamed data collected in Step 1, which enables the generation of the training model for the collected metric.  
+
+\textbf{Anomaly Detection}: The collected real-time data is feed on the fly to NUPIC anomaly detection service \cite{AHMAD2017134}, which provides two features: First, continuous detection of anomalous behaviour with high accuracy. Second, it also provides predictions about the architecture performance based on the collected historic data. This can alerts the architecture about incoming spike on resources demand which can be used by the adaptation manager to schedule a proactive adaptation strategy ahead of time. In addittion, the anomaly detection service is able to detect anomalies as early as possible before the anomalous behaviour is interrupting the functionality of the running services in the cluster as demonstrated by Ahmad et al. \cite{AHMAD2017134}. 
+
+\textbf{Adaptation Election}: Once their is an anomalous behaviour detected with high anomaly score and likelihood, both values are calculated by the Anomaly Detection Service as shown in Figure \ref{fig_model}. The Alert manager notifies the adaptation manager about the anomalous detected. The adaptation manager selects the adaptation action(s) after calculating the utility value for all actions as explained in the following Section \ref{sec:mapk}. Then, the adaptation manager uses the input of the anomaly likelihood, architecture constraints (specified by the DevOp during deployment), and desired/predicted QoS to calculate the best variation of the adaptation that has the highest utility. 
+
+
+\textbf{Adaptation Execution}: The adaptation manager executes the strategies based on the aggregated value of the utility returned by the algorithm. Once the adaptation action is completed by the adaptation manager, a set of adaptation actions are deployed in the architecture. To avoid, conflicts between multiple adaptation polices, the adapter allow the adaptation actions to be fully completed and verified by the cluster leader according to the consensus performed by RAFT, then it will put a cool off timer before initiating new adaptation actions. This technique is used to avoid resources thrashing and preserving the cluster state for auto-recovery. The adaptation manager sends the cluster leader a set of instructions that might involve tuning of cluster parameters, (horizontal scaling), adding/removing nodes, or vertical scaling of Microservice's containers like scaling a service in/out.  
+
+\textbf{Adaptation Verification}: The cluster leader and all managers in the cluster will vote on the adaptation action based on the consensus algorithm \cite{ongaro2015raft}. The vote results is used to validate and verifies the adaptation action. If the adaptation action won the votes, the adaptation action will be executed by the cluster leader, the adaptation manager records the adaptation attempt as successful. If the adaptation action lost the voting process, then the adaptation manager keeps the current state of the cluster and records the adaptation attempt as failed. In both cases, the adaptation manger records the number of attempts used to complete the adaptation actions.   
+ 
+%The evaluation of this model will come in two folds: First, evaluating the consistent behaviour of the cluster by evaluating the state of the swarm after executing a set of adaptation actions. Second, evaluating the accuracy of the anomaly detection algorithms using confusion matrix \cite{kohavi1998confusion},  as described in the following section. 
+
+
+\subsection{Adaptation Election}
+\label{sec:mapk}
+This research focuses on defining a model to continuously observe and monitor the swarm cluster and be able to detect anomalous behaviour with a high accuracy and generate a low rate of false alarms. Then provide the architecture with adaptation strategies with high utility to reason about the detected anomalies and be able to self-adjust the architecture parameters and verifies the adaptation actions at runtime without human intervention.  
+
+For this aim, This research focuses on proposing a model that can continuously observe and monitor the Microservices architecture and be able to detect anomalous behaviour with high accuracy and generate low rate of false alarms. At the same time, the architecture should be able to respond to True positive alarms by suggesting a set of adaptation policies (adaptation strategy), that can be deployed in the cluster to achieve high level of self-healing in response to changes in its operating environment.  
+
+To provide this model with dynamic policy election that guarantees high accuracy of selecting the best adaptation action that fits in the current execution context. The adaptation manager is implemented using a deep reinforcement algorithm (Deep Q Learning) \cite{van2016deep}. The problem of self-healing architecture requires an algorithm to learn how to choose an adaptation action from an infinitely large action space and to optimise the reward function to guarantees that the architecture will reach the adaptation objectives \cite{van2012reinforcement}.
+
+A deep-Q network (DQN) is a multi-layered neural network that for a given state $s$ outputs a vector of action values using Markov Decision Process \cite{bellman1957markovian}. Knowing the optimal state value is very useful in identify the best adaptation policy. Bellman found an algorithm to estimate the optimal state-action values called Q-values \cite{bellman1957markovian}. The Q-value of a state-action pair is noted by $Q(s,\alpha)$. The $Q(s,\alpha)$ refers to he sum of discounted future rewards that the adaptation action expect to reach in a state $s$ after selecting the adaptation action $\alpha$.  
+
+\begin{equation*}
+U_{h} = R(s_0) + \gamma R(s_1) + \gamma^{2} R(s_2) + ... + \gamma^{n} R(s_n)
+\end{equation*}
+
+$V* s = maxa ∑s′T s,a,s′ R s,a,s′ +γ.V* s′     for all s$
+
+
+Reinforcement Learning problems with discrete actions can often be modelled as Markov decision processes, but the agent initially has no idea what the transition probabilities are (it does not know T(s, a, s′)), and it does not know what the rewards are going to be either (it does not know R(s, a, s′)). It must experience each state and each transition at least once to know the rewards, and it must experience them multi‐ ple times if it is to have a reasonable estimate of the transition probabilities.
+
+The Temporal Difference Learning (TD Learning) algorithm is very similar to the Value Iteration algorithm, but tweaked to take into account the fact that the agent has only partial knowledge of the MDP. In general we assume that the agent initially knows only the possible states and actions, and nothing more. The agent uses an exploration policy—for example, a purely random policy—to explore the MDP, and as it progresses the TD Learning algorithm updates the estimates of the state values based on the transitions and rewards that are actually observed 
+
+Approximate Q-Learning
+
+The main problem with Q-learning with polices exploration is that it does not scale well in environment that has large set of states and actions. This make the number of possible state to be explored by the algorithm large to be applicable in Microservices architecture. The alternative for this is to use a utility function that can be approximately used to estimate the Q-Value function in deep neural network \cite{van2012reinforcement}. To efficiently employ the algorithm of Deep Q-learning in the adaptation manager we need to define the possible actions to be taken by the manager and the reward function. The reward function will be used to calculate the probability of the architecture to move from one state to another state. This where the anomaly detection algorithm plays a significant role. The anomaly likelihood will be used to calculate the reward function at each pairs of state and action.  So the value of $Q(s, \alpha)$ is calculated based on the equation in \ref{eq_2}
+ 
+In different words, the Dev-Ops define the policy parameters that suits the Microservices architecture, but the adaptation manager at runtime adjusts those polices based on the outcome of the reward function. The adjustment of the adaptation policy is a major challenge as there might a finite set of configurations and parameters tuning over unlimited number of contextual changes. For this aim, the adaptation manager implements a multidimensional utility to elect the best adaptation strategy and to calculate the reward function. 
+
+\begin{equation}
+\label{eq_1}
+fitness_{i}(s,\alpha) = \sum_{i}^{k} W_{i} ContxtObservation
+U(s) = 
+\end{equation}
+
+ 
+ 
+From utility theory, a von Neumann-Morgenstern utility function $U_{i} : X_{i} \rightarrow {R}$ assigns a real number to each quality dimension i, which we can normalize to the range [0, 1] \cite{fishburn1979two}. Across multiple dimensions of contextual changes, we can attribute a percentage weight to each dimension to account for its relative importance compared to other dimensions. These weights form the utility preferences. The overall utility is then given by the utility preference function calculated using equ. \ref{eq_1}. For example, if three objectives, u1, u2, u3, are given decreasing importance as follows: the first is twice as important as the second, and the second is three times as important as the third. Then the utility fitness would be quantified as $[w1 : 0.6, w2 : 0.3, w3 : 0.1]$ \cite{Cheng:2009p3902}. As soon as there is contextual changes detected in the architecture, the adaptation manager computes the utility of all variants related to the operational conditions and decides if an adaptation is required or not based on the outcome of the reward function implemented in the Deep Q-learning algorithm. 
+
+ This is achieved by checking if the current variant is still the one offering the highest reward. So, the utility function is calculated as in equ. \ref{eq_2} proposed in \cite{KonstantinosKakousis:2008ub}. In this case, the adaptation strategy refers to any parameter-based or compositional-based configuration of the architecture, maintaining its original functional properties \cite{KonstantinosKakousis:2008ub}. The adaptation manager uses a utility function to calculate and priorities the requirements that need to be meet in the adaptation action. Once an alert is triggered, the adaptation manager calculates the utility preference for all metrics collected from the cluster's operational environment. 
+
+
+
+Konstantinos et al. \cite{KonstantinosKakousis:2008ub} refer to the weight $W_{i}$ in equ. \ref{eq_2} as the user preferences. In this paper we use the anomaly likelihood as the value of $W_{i}$ to indicates the relative importance of the utility dimension compared to other dimensions, which will be used to calculate the reward function. We argue that the use of anomaly likelihood to weight the collected metrics provides an accurate calculation of the reward function and provides the model will better estimation of the adaptation action. The anomaly likelihood is accurately defining how anomalous the current state comparing to the distribution of the trained values in the trained model. This enables the adaptation manager to scale the weight of each context change (utility dimension) over the distribution value calculated and aggregated in the anomaly likelihood value. The anomaly likelihood is a scaler value between 0 to 1, meaning if the $w_{cpu}$ is 1 and the CPU usage value is 70\% then this might give this metric high utility dimension so it will to be considered in the next adaptation action and it will get a high value of reward. In another scenario, if the anomaly likelihood is 0, this would give the metric low utility dimension so it will not be considered in the next adaptation action by the adaptation manager as it will return a low reward to the algorithm. 
+
+
+%In addition to the above, it is important to have a method that can accurately calculate the cost of adaptation of the utility that have the highest dimension. For example, if the $Utility(_{cpu})$ has the highest dimension, this will triggers an adaptation action to reason about the high demand of CPU usage, so the adaptation manager needs to add additional nodes to join the cluster. Such process needs to be controlled to avoid resources overallocation. 
+
+%For this aim, an accurate calculation is needed, that calculates the required number of nodes needed to meet the demand of the adaptation action and at the same time maintain the resource provisioning within the allocated budget by the Dev-Ops. The utility cost of provisioning a new node/container in the architecture is calculated based on the equ. \ref{eq_3}, the $Current(u_{i})$ is the current value of the utility dimension (context changes). The $Predicted(u_{i})$ refers to the Predicted value of the utility dimension. The $AnomScore(u_{i})$ is the Anomaly Score of the utility dimension at time $t_{i}$, and $W_{i}$ is the anomaly likelihood value of utility dimension. The $Predicted(u_{i})$, $AnomScore(u_{i})$, and $W(u_{i})$ are provided by anomaly detection service implemented based on NUPIC.  The $UsageTime(u_{i})$ refers to the total number of hours the node is expected to be used per/day, this value is calculated based on the rate of changes calculated based on equ. \ref{eq_4}. The $Cost(instanceType)$ is the cost in \$ for provisioning an instance per/day, normally this is a constant value specified by the cloud infrastructure provider based on the instance type. Finally, the value of $Cost(u_{i})$ is calculated against the constraint of $budget$ as $ Cost(u_{i})  \leq  budget $, The $budget$ is assigned by the Dev-Op to reflect the value of the available budget, so the adaptation manager will not exceed this value at any case. A negative value returned by $Cost(u_{i})$ function means the number of nodes/replicas in the cluster should be reduced by the adaptation action. 
+
+\begin{equation}
+\label{eq_2}
+    Q(S,\alpha) \equiv \frac{ \sum_{i=1}^{k} (W \cdot fitness_{i}(S,\alpha) ) }{\sum_{i=1}^{k} W_{i}}
+\end{equation}
+  
+
+\begin{figure*}[!ht]   
+\includegraphics[scale=0.3]{ScalingService.png}
+\caption{ Dynamic Scaling of Web Service}
+\label{fig_Scale}
+\end{figure*} 
+
+
+
+
+\input{related-work}
+
+\bibliographystyle{spphys}
+\bibliography{selfhealingv2.bib} 
+
+
+%\input{referenc}
+\end{document}

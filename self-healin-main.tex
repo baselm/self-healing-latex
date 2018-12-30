@@ -171,7 +171,7 @@ In Microservices cluster, the performance of the cluster nodes could fluctuate a
 %\section{Self-healing Microservices Architecture}
 \label{sec:modelling}
 One important aspect of a self-healing Microservices architecture is the ability to continuously monitor the operational environment, detect and observe anomalous behaviour, and provide a reasonable policy for self-scaling, self-healing, and self-tuning the computational resources to adapt a sudden changes in its operational environment dynamically at rune-time.  
-\begin{figure*}[ht!] 
+\begin{figure*}[!ht] 
 \includegraphics[scale=0.4]{design}
 \caption{Microservices Architecture implemented in Docker Swarm}
 \label{fig_model}
@@ -225,7 +225,7 @@ Cost(u_{i}) = \frac{(Current(u_{i}) - Predicted(u_{i}))\cdot (AnomScore(u_{i}) \
 \Delta U_{i}=\sum_{i}^{k} (U_{i}\cdot W_{i})-(U_{i-1}\cdot W_{i-1})
 \end{equation}
 
-\begin{figure*}[ht!]   
+\begin{figure*}[!ht]   
 \includegraphics[scale=0.3]{ScalingService}
 \caption{ Dynamic Scaling of Web Service}
 \label{fig_Scale}
@@ -242,23 +242,23 @@ The evaluation of this model will come in two folds: First, evaluating the consi
 \label{sec:evaluation}
 The Microservices cluster implemented with many services including the adaptation manager, which contains the NUPIC machine learning and the adaptation executer. This live snapshot \footnote{https://goo.gl/LJPrFy} provides a full virtualisation of all services running in the cluster. The evaluation of the effectiveness of this model will be based on calculating a utility function for all metrics monitored, then it will calculates the number of adaptation attempts, successful convergence of services/nodes, or errors which leads to unstable state of the cluster. 
 
-\begin{figure*}[ht!] 
+\begin{figure*}[!ht] 
 \includegraphics[scale=0.2]{demand}
 \caption{ Dimensional analysis of variations of utility functions}
 \label{fig_demand}
 \end{figure*}
-For this aim, first we run a stress test in the cluster manager until its CPU usage reaches 70\%, which triggers an alert to the adaptation manager. The adaptation manager collects the current reading of the metrics, anomaly score, and anomaly likelihood (see figure \ref{fig_model}). Then, the adaptation manager calculates the rate of changes in each metric to elect the metric that has the highest utility dimension. As example, Figure \ref{fig_demand} is showing the utility of CPU usage, Memory usage, Disk reads (bytes/s), Disk writes (bytes/s), Docker Network (sent/received bytes/s) . The CPU usage has the highest utility as confirmed by the Utility indifference indicator shown in Figure \ref{fig_demand}. Also, the memory usage of the service shows slow rate of changes over time, which make it optional to be considered in the adaptation action. With regard to the utility of Disk Read/Write, the Figure \ref{fig_demand} shows no divergent above the moving average (i.e. utility indifference curve) so it will not be considered in the next adaptation action. The docker network shows no changes over the time of the experiment as the load balancer and the reverse proxy manage to divert the traffic to many containers distributed in the cluster. 
+\begin{figure*}[!ht] 
+\includegraphics[scale=0.23]{changes}
+\caption{Utility(cpu) rate of changes and Cost calculated based in equ. \ref{eq_3} and \ref{eq_4}}
+\label{fig_changes}
+\end{figure*}
+For this aim, first we run a stress test in the cluster manager until its CPU usage reaches 70\%, which triggers an alert to the adaptation manager. The adaptation manager collects the current reading of the metrics, anomaly score, and anomaly likelihood (see figure \ref{fig_model}). Then, the adaptation manager calculates the rate of changes in each metric to elect the metric that has the highest utility dimension. As example, Figure \ref{fig_demand} is showing the utility of CPU usage, Memory usage, Disk reads (bytes/s), Disk writes (bytes/s), Docker Network (sent/received bytes/s) . The CPU usage has the highest utility as confirmed by the Utility indifference indicator shown in Figure \ref{fig_demand}. Also, the memory usage of the service shows slow rate of changes over time, which make it optional to be considered in the adaptation action. With regard to the utility of Disk Read/Write, the Figure \ref{fig_demand} shows no divergent above the moving average (i.e. utility indifference curve) so it will not be considered in the next adaptation action. The docker network shows no changes over the time of the experiment as the load balancer and the reverse proxy manage to divert the traffic to many containers distributed in the cluster.
 
 As the $Utility_(CPU)$ has the highest value of changes as shown in Figure \ref{fig_demand}. This will triggers an adaptation action to reason about the high demand of CPU usage, so the adaptation manager will create additional nodes and add them to the swarm cluster automatically. The number of nodes is equals to the utility cost calculated as in equ. \ref{eq_4}. This results in adding new nodes to the swarm as shown in the snapshot \footnote{goo.gl/pGVmwZ} (A full visualised and analytics dashboard of the swarm after the adaptation).
 Once the CPU demand is reduced, the adaptation manager will calculate the variations of the utility and remove number of nodes equals to value returned by the utility cost function in equ. \ref{eq_4}. A snapshot \footnote{https://goo.gl/H5js2s} of the system after executing the adaptation action to reason about the low level of the cpu usage. 
 
 
 In another scenario, we simulated Distributed Denial of Service attack to a web service running in the swarm, to verify that the adaptation manager will be able to accommodate the DDOS attack by adding more replicas to the service. In this case, we wish to verify the ability of the proposed model to dynamical adjust the number of service's replicas against the variations of the CPU usage and to maintain an acceptable response time of the web service. At the same time, it is very important that the adaptation action would not scale the service endlessly. So the utility cost is calculated to count the number of replicas needed. The outcome of this experiments is shown in Figure \ref{fig_Scale}. The figure show how the number of scaled replicas are tuned linearly against the CPU usage. Also, it shows the number of steps taken by the adaptation manager to execute the scaling policy in/out. The adaptation manager counts the utility of the CPU metric and the utility cost to define the number of added/removed replicas. The adaptation manager waits for receiving a high utility value by sending heartbeat signal to get the latest value of utility dimension and cost every 20s for a window of 300s. Once the utility of the CPU get the highest utility dimension, the adaptation manager calculates the number of replicas to be added/removed to the service. Also, the number of steps needed to achieve the desired state are counted as shown in Figure \ref{fig_Scale}. The number of steps needed to perform the adaptation varies based on the severity and variation of the utility cost over time. Once the adaptation is applied and verified by winning the consensus algorithm votes, the service will be scaled and the adaptation manager puts a cool off timer of 300s before initiating new adaptation action. Also, it reset the steps timer. 
-\begin{figure*}[ht!] 
-\includegraphics[scale=0.23]{changes}
-\caption{Utility(cpu) rate of changes and Cost calculated based in equ. \ref{eq_3} and \ref{eq_4}}
-\label{fig_changes}
-\end{figure*}
 
 The accuracy of the utility cost, rate of changes, and the maximum utility dimension are vital for the success of the adaptation process. So, Figure \ref{fig_changes} depicts the calculation of the rate of changes and the utility cost to reach the desired number of nodes/replicas needed. We find the calculation accurately satisfies the adaptation objectives and provides the architecture with accurate calculation of the needed number of nodes/replicas. As shown in Figure \ref{fig_changes}, the number of nodes increases at the right time when the CPU demand spikes, then the number of nodes/replicas reduced just before the CPU demand is declined significantly as shown in Figure \ref{fig_changes}. The rate of changes in CPU usage declined so the Utility cost return negative value for the required number of nodes/replicas as long they are above the minimum number of nodes/replicas specified by the Dev-Ops. Also, as shown in Figure \ref{fig_changes} The utility cost normalizes and tunes the CPU demand. This provides a great evidence that the employment of the utility dimension provides the adaptation cycle a dynamic variability over the needed/allocated resources. Instead off scaling the architecture in/out according to a static threshold. 
 

@@ -1,0 +1,277 @@
+\documentclass[AMA,STIX1COL]{WileyNJD-v2}
+\usepackage{moreverb}
+
+
+\newcommand\BibTeX{{\rmfamily B\kern-.05em \textsc{i\kern-.025em b}\kern-.08em
+T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+
+\articletype{Research Article}%
+
+\received{<day> <Month>, <year>}
+\revised{<day> <Month>, <year>}
+\accepted{<day> <Month>, <year>}
+
+%\raggedbottom
+
+\begin{document}
+
+\title{Self Healing Microservices Architecture: A case study in Docker Swarm Cluster}
+
+\author[1]{Basel Magableh*}
+
+\author[2]{Luca Longo}
+
+ 
+\authormark{Magableh B. \textsc{et al}}
+
+
+\address[1]{\orgdiv{DIT}, \orgname{Dublin Institute of Technology}, \orgaddress{\state{Dublin}, \country{Ireland}}}
+
+\address[2]{\orgdiv{DIT}, \orgname{Dublin Institute of Technology}, \orgaddress{\state{Dublin}, \country{Ireland}}}
+
+
+\corres{*Basel Magableh, Dublin Institute of Technology Dublin, Ireland. \email{basel.magableh@dit.ie}}
+
+%\presentaddress{Present address}
+
+  
+ 
+  
+
+\abstract{Services running in Microservices cluster could be scaled in/out based on the demand issued by end-users, orchestration algorithm, or load balancer running on the cluster leader. The behaviour of Microservices architecture is continuously changing overtime, which makes it a challenging task to use a statistical model to identify normal and abnormal behaviour of the running services. The performance of the cluster nodes could fluctuate around the demand to accommodate scalability, orchestration and load balancing demands. 
+ This requires a model that is able to detect anomalies in real-time and generate a high rate of accuracy in detecting any anomalies and a low rate of false alarms. At the same time, it requires dynamic policy configuration that can be used to adapt the recent changes in the operational environment. This paper focuses on proposing a self-healing Microservices architecture, that is able to continuously monitor the operational environment, detects and observes anomalous behaviour, and provides a reasonable adaptation policy using multidimensional utility-based model. We argue in this paper that such model could offer self-scaling of Microservices architecture and adapt the sudden changes in the operational environment. The self-healing property is achieved by means of parameter tuning and dynamic adjustment of the cluster configuration. We believe integrating utility theory in the dynamic decision-making process improves the effectiveness of the adaptation and reduces the adaptation risk including resources over-provisioning and thrashing. Also, it preserving the cluster state by preventing multiple adaptation to take place at the same time.}
+
+\keywords{Self Healing, MicoroServices Architecture, Anomaly detection, Run- time configuration}
+
+\jnlcitation{\cname{%
+\author{Basel Magableh}, and 
+\author{Luca Longo}} (\cyear{2018}), 
+\ctitle{Self Healing Microservices Architecture: A case study in Docker Swarm Cluster}, \cjournal{Software: Practice and Experience} <year> <vol> Page <xxx>-<xxx>}
+
+\footnotetext{\textbf{Self Healing Microservices Architecture:} Magableh B. et al.}
+
+\maketitle
+
+\section{Introduction}
+\label{sec:1}
+A Microservices architecture could be defined in the context of a service-oriented architecture as a composition of tiny fine-grained distributed loosely coupled building blocks of software components \cite{stubbs2015distributed}. Microservices improve software modularity and make the application easy to develop and maintain. With the rapid development of cloud infrastructures and virtualisation techniques, a high demand for building Microservices architectures in a complete virtualised environment has emerged. This need was met by introducing containers engine like Docker \footnote{https://www.docker.com} as well as cluster management framework such as Docker swarm \footnote{https://docs.docker.com/engine/swarm/}.  
+The performance of Microservices running in cluster mode could fluctuate around the demand to accommodate scalability, orchestration and load balancing offered by the cluster leader \cite{stubbs2015distributed}. In their daily base tasks,  many Dev-Ops face an issue of defining and identifying a threshold which can be used to identify a network, system or user activity as normal behaviour. Another challenge that exist in Microservices clusters is the ability to dynamically scale horizontally, (i.e. adjusting the number of nodes participating in the cluster), or vertically (i.e. adjusting the computational resources available for the services). In addition to this, it is not possible to configure auto scaling policy that could be used by the cluster leader to perform resilient and autonomous reasoning to achieve the desired QoS of the architecture. 
+
+Nowadays, cluster management technology does not embed a component that can guarantees continuous monitoring and adaptation of the operational environment. Also cluster managment can not offer the architecture with dynamic capability to reasone  about context changes at run-time. To achieve such a high level of scalability, a swarm cluster, for instance, should have a component for continuously monitoring the cluster and a component for adaptation that can implement a reasonable reaction/scaling policy to accommodate the changes in the operating environment. This presents a challenge to build a self-healing microservices architecture that can dynamically adjust its own behaviour and heal itself against anomalous behaviour detected at real-time. Self-healing refers to a property of a self-adaptive software to have the capability of discovering, diagnosing and reacting to disruptions. It can also anticipate potential problems and, accordingly, take proper actions to prevent a failure \cite{Salehie:2009p3693}. To achieve a high level of  self-healing it is necessary to have four major functionalities at run-time: 1) Monitoring and detecting events (contextual changes), 2) Context reasoning (dynamic decision making), 3) Adaptation strategies, 4) validation and verification of the adaptation action \cite{Kapitsaki:2009p3694}.  
+
+%This research focuses on the proposal of a model that can continuously observe and monitor microservices architectures and can detect anomalous behaviour with high accuracy with a minimal low rate of false alarms. At the same time, this model is envisioned to respond to true positive alarms by suggesting a set of adaptation policies (adaptation strategy) using a multi dimensional utility-based model, which can be used by the architecture to select the best adaptation strategy.
+
+The proposed model in this paper offers Microservices architecture a self-healing property by providing a mechanism for continuous monitoring, context detecting of anomalous behaviour using real-time unsupervised anomaly detection algorithm, dynamic decision making using a multidimensional utility based model, enabling dynamic adaptation horizontally or vertically based on the demand and the changes of the operational environment, and runtime verification and validation of the fitness of proposed adaptation strategy. We argue that the self-healing attribute of Microservices architecture is achieved by leveraging parameter tuning and dynamic decision-making supported by an accurate anomaly detection of Microservices architecture. 
+
+This paper is structured as follows: Section \ref{sec:related-work} provides an overview of self-healing architectures and surveys the approaches for  anomaly detection, and run-time configurations. Section \ref{sec:modelling} presents a model that can continuously observe Microservice architectures with Self-healing capabilities. Section \ref{sec:evaluation} proposes a strategy for analysing and evaluating the capability of the model  to detect anomalous behaviours and to trigger suitable adaptation actions. Section \ref{sec:disc} is focused on results found followed a by a critical discussion of the effectiveness of this model. Section \ref{sec:Conclusion} summarises this research, highlighting its contribution and setting future work.
+
+\input{related-work}
+\section{Design and methodology}
+%\section{Self-healing Microservices Architecture}
+\label{sec:modelling}
+\subsection{Self-healing Microservices Architecture}
+One important aspect of a self-healing Microservices architecture is the ability to continuously monitor the operational environment, detect and observe anomalous behaviour, and provide a reasonable policy for self-scaling, self-healing, and self-tuning the computational resources to adapt a sudden changes in its operational environment dynamically at rune-time.  
+\begin{figure}[!ht] 
+\centering
+\includegraphics[scale=0.4]{design.png}
+\caption{Microservices Architecture implemented in Docker Swarm}
+\label{fig_model}
+\end{figure}
+
+
+ 
+The Microservices Architecture is shown in Figure \ref{sec:modelling}. The architectur was designed according to the MAPE-K model  \cite{computing2006architectural}. This model offering the Microservices architecture with the following functionalities: 
+
+\textbf{Metric collection}: Continuous collection of fine-grained metrics about cluster nodes, services, and containers including (CPU usage, Memory, Disk Reads Bytes/sec, Network Read/s, network write/s and Disk Writes Bytes/sec). The data are streamed into anomaly detection service at real-time. 
+
+\textbf{Model Training}: The NUPIC anomaly detection service \cite{AHMAD2017134} is continuously running over the streamed matrices collected in the matrices database, which enables the generation of the training model for the collected metric.  
+
+\textbf{Anomaly Detection}: The collected real-time data is feed on the fly to NUPIC anomaly detection service \cite{AHMAD2017134}, which provides two features: First, continuous detection of anomalous behaviour with high accuracy. Second, it also provides predictions about the architecture performance based on the collected historic data. This can alert the architecture about incoming spike on resources demand which can be used by the adaptation manager to schedule a proactive adaptation strategy ahead of time. In addittion, the anomaly detection service is able to detect anomalies as early as possible before the anomalous behaviour is interrupting the functionality of the running services in the cluster as demonstrated by Ahmad et al. \cite{AHMAD2017134}. 
+
+\textbf{Adaptation Election}: Once their is an anomalous behaviour detected with high anomaly score and likelihood, both values are calculated by the Anomaly Detection Service as shown in Figure \ref{fig_model}. The Alert manager notifies the adaptation manager about the anomalous detected. The adaptation manager selects the adaptation action(s) after calculating the utility value for all actions as explained in the following Section \ref{sec:mapk}. Then, the adaptation manager uses the input of the anomaly likelihood, architecture constraints (specified by the DevOp during deployment), and desired/predicted QoS to calculate the best variation of the adaptation that has the highest utility. 
+
+
+\textbf{Adaptation Execution}: The adaptation manager executes the strategies based on the aggregated value of the utility returned by the algorithm. Once the adaptation action is completed by the adaptation manager, a set of adaptation actions are deployed in the architecture. To avoid, conflicts between multiple adaptation polices, the adapter allow the adaptation actions to be fully completed and verified by the cluster leader according to the consensus performed by RAFT, then it will put a cool off timer before initiating new adaptation actions. This technique is used to avoid resources thrashing and preserving the cluster state for auto-recovery. The adaptation manager sends the cluster leader a set of instructions that might involve tuning of cluster parameters, (horizontal scaling), adding/removing nodes, or vertical scaling of Microservice's containers like scaling a service in/out.  
+
+\textbf{Adaptation Verification}: The cluster leader and all managers in the cluster will vote on the adaptation action based on the consensus algorithm \cite{ongaro2015raft}. The vote results is used to validate and verifies the adaptation action. If the adaptation action won the votes, the adaptation action will be executed by the cluster leader, the adaptation manager records the adaptation attempt as successful. If the adaptation action lost the voting process, then the adaptation manager keeps the current state of the cluster and records the adaptation attempt as failed. In both cases, the adaptation manger records the number of attempts used to complete the adaptation actions.   
+ 
+%The evaluation of this model will come in two folds: First, evaluating the consistent behaviour of the cluster by evaluating the state of the swarm after executing a set of adaptation actions. Second, evaluating the accuracy of the anomaly detection algorithms using confusion matrix \cite{kohavi1998confusion},  as described in the following section. 
+
+
+\subsection{Adaptation Election}
+\label{sec:mapk}
+%This research focuses on defining a model to continuously observe and monitor the swarm cluster and be able to detect anomalous behaviour with a high accuracy and generate a low rate of false alarms. Then provide the architecture with adaptation strategies with high utility to reason about the detected anomalies and be able to self-adjust the architecture parameters and verifies the adaptation actions at runtime without human intervention.  
+
+This research focuses on proposing a model that can continuously observe and monitor the Microservices architecture and be able to detect anomalous behaviour with high accuracy and generate low rate of false alarms. At the same time, the architecture should be able to respond to True positive alarms by suggesting a set of adaptation policies (adaptation strategy), that can be deployed in the cluster to achieve high level of self-healing in response to changes in its operating environment.  
+
+To provide this model with dynamic policy election that guarantees high accuracy of selecting the best adaptation action that fits in the current execution context. The adaptation manager implements a policy election process by employ a utility function to calculate the probability of transition from one state to another. This where the anomaly detection service plays a significant role. At each state $s$ of the Microservice architecture there is a set of context values $c_{1},...,c_{m}$ measuring the matrices of operating environment such as: CPU, Memory, Disk I/O and Network. 
+
+The Anomaly detection service reads the current values of all matrices and calculates the Anomaly Score $as_{1},..., as_{m}$ and Anomaly Likelihood $al_{1},...,al_{m}$ of the current metric value in the current state. The anomaly likelihood is accurately defining how anomalous the current metric value comparing to the distribution of learned values by the anomaly detection service. This enables the adaptation manager to scale the weight of each metric value over the distribution value calculated and aggregated in the anomaly likelihood value. The anomaly likelihood is a scaler value between 0 to 1, meaning if the $al_{cpu}$ is 1 and $c_{2}$ refers to the CPU usage value is 70\% then this might give this metric high utility dimension so it might to be considered in the next adaptation action, so the adaptation manager will select an adaptation policy that can reason about the anomalous behaviour of the CPU value. In another scenario, if the anomaly likelihood is 0, this would give the metric low utility dimension so it will not be considered in the next adaptation action by the adaptation manager as it will return a low reward to the algorithm. 
+ 
+ 
+\begin{equation}
+\label{eq_1}
+W(al_{m},C_{m}) =  \sum_{i=1}^{m} al_{i} \cdot  c_{i}
+\end{equation}
+
+ \begin{equation}
+\label{eq_2}
+U(C_{m}) =  \max  W(al_{m},C_{m})
+\end{equation}
+
+ 
+ 
+ 
+From utility theory, a von Neumann-Morgenstern utility function $U_{i} : X_{i} \rightarrow \mathbb{R}$ assigns a real number to each quality dimension i, which we can normalize to the range [0, 1] \cite{fishburn1979two}. Across multiple dimensions of contextual changes $C_{m}$, we can attribute a percentage weight to each dimension to account for its relative importance compared to other dimensions. These weights form the utility preferences. The overall utility is then given by the utility preference $w(c_{m})$ function calculated using equ. \ref{eq_2} be selecting the max utility of weight vector of all metrices calculated in in equ. \ref{eq_1}. For example, if three objectives, u(cpu), u(memory), u(disk), are given anomaly likelihood as follows: the first is twice as important as the second, and the second is three times as important as the third. Then the weight would be quantified as $[w1 : 0.6, w2 : 0.3, w3 : 0.1]$, where the weight is the Anomaly Likelihood of each metric. This gives the CPU metric higher priority to be consider in the adaptation action.
+ 
+
+In this paper. We argue that the use of anomaly likelihood to weight the collected metrics provides an accurate calculation of the utility function and provides the model with better estimation of the adaptation action. So the maximum metric is selected using the equation described in \ref{eq_2}, which select the maximum W of specific metric value that has the highest Anomaly Score returned by the Anomaly detection service. 
+
+\begin{equation}
+\label{eq_3}
+Cost(u_{m}) = \frac{(Current(c_{m}) - Predicted(c_{m}))\cdot (as(c_{m}) \cdot W(al_{m}, c_{m}))}{UsageTime(u_{m}) * Cost(instanceType)}
+\end{equation}
+
+
+ In addition to that, an accurate calculation is needed, that calculates the required number of nodes needed to meet the demand of the adaptation action and at the same time maintain the resource provisioning within the allocated budget by the Dev-Ops. The utility cost of provisioning a new node/container in the architecture is calculated based on the equ. \ref{eq_3}, the $Current(c_{m})$ is the current value of the metric value. The $Predicted(c_{m})$ refers to the Predicted value of the utility dimension. The $AnomScore(c_{m})$ is the Anomaly Score of the utility dimension at time $t_{i}$, and $W_{i}$ is the anomaly likelihood value of metric value. The $Predicted(c_{m})$, $AnomScore(c_{m})$, and $W(c_{m})$ are provided by anomaly detection service implemented based on NUPIC. The $UsageTime(u_{m})$ refers to the total number of hours the node is expected to be used per/day, this value is calculated based on the rate of changes calculated based on equ. \ref{eq_4}. The $Cost(instanceType)$ is the cost in \$ for provisioning an instance per/day, normally this is a constant value specified by the cloud infrastructure provider based on the instance type. Finally, the value of $Cost(u_{m})$ is calculated against the constraint of $budget$ as $ Cost(u_{m})  \leq  budget $, The $budget$ is assigned by the Dev-Op to reflect the value of the available budget, so the adaptation manager will not exceed this value at any case. A negative value returned by $Cost(u_{i})$ function means the number of nodes/replicas in the cluster should be reduced by the adaptation action. 
+
+ \begin{equation}
+\label{eq_4}
+\Delta U_{m}=\sum_{i}^{m} (W_{m} - W_{m-1})
+\end{equation}
+ \section{Results}
+\subsection{Experimental Setup} 
+\label{sec:evaluation}
+ 
+To validate the ideas presented in this paper, we design and develop a working prototype of Microservice architecture in Docker swarm \footnote{https://docs.docker.com/engine/swarm/} as shown in Figure \ref{fig_model}. The cluster consisted of manager and worker nodes. Each cluster has one leader, which maintains the cluster state and preserves the cluster logs. Also, the leader node initializes the vote of Raft Consensus Algorithm \cite{ongaro2015raft} to agree/disagree on specific value based on the consensus by all nodes in the cluster. Only the leader node is allowed to commit and save the variable values or logs. To meet scalability and availability, the leader node distributed the work load between the workers based on Raft Consensus Algorithm \cite{ongaro2015raft}. This means that each service could be executed by assigning multiple containers across the cluster's nodes. 
+
+The main services implemented in this architecture are: Time series metrics database for context collection, Nodes metrics used to collect metrics from all nodes in the cluster, Alert and notification manager used to notify the adaptation manager about contextual changes offered by  Prometheus framework \footnote{https://prometheus.io}. Docker containers metrics collector for collecting fine-grained metrics about all running containers in all nodes \footnote{https://github.com/google/cadvisor}. Reverse proxy for routing traffic between all services in the cluster \footnote{https://caddyserver.com/docs/proxy}. Unsupervised Real-time Anomaly Detection based on NUPIC \footnote{http://nupic.docs.numenta.org/stable/index.html}, Adaptation manager for executing, validating the adaptation actions developed as a prototype of this research. Time series analytic and visualisation dashboard for observing the behaviour of the Microservices cluster \footnote{https://grafana.com}. 
+
+This live snapshot \footnote{https://snapshot.raintank.io/dashboard/snapshot/UJlrTzwubrRQjDwM1YFJle5zvdK3Anr7?orgId=2} provides a full virtualisation of all services running in the cluster. The evaluation of the effectiveness of this model will be based on calculating a utility function for all metrics monitored, then it will calculate the number of adaptation attempts, successful convergence of services/nodes, or errors which leads to unstable state of the cluster. 
+
+\begin{figure}[!ht] 
+\centering
+\includegraphics[scale=0.25]{demand}
+\caption{ Dimensional analysis of variations of utility functions}
+\label{fig_demand}
+\end{figure}
+
+\begin{figure}[!ht] 
+\centering
+\includegraphics[scale=0.3]{changes}
+\caption{Utility(cpu) rate of changes and Cost calculated based in equ. \ref{eq_3} and \ref{eq_4}}
+\label{fig_changes}
+\end{figure}
+
+The evaluation of this model will come in three folds: First, evaluating the consistent behaviour of the cluster by evaluating the state of the swarm after executing a set of adaptation actions. Second, evaluating the accuracy of the model in electing the correct adaptation action by identifying the highest metric value that need to be consider in the adaptation. Third, Evaluating theaccurecy of the anomaly detection service using confusion matrix \cite{kohavi1998confusion},  as described in the following section. 
+
+ \subsection{Discussion}
+\label{sec:disc}
+First we run a stress test in the cluster manager until its CPU usage reaches 70\%, which triggers an alert to the adaptation manager. The adaptation manager collects the current reading of the metrics, anomaly score, and anomaly likelihood (see figure \ref{fig_model}). Then, the adaptation manager calculates the rate of changes in each metric to elect the metric that has the highest utility dimension. As example, Figure \ref{fig_demand} is showing the utility of CPU usage, Memory usage, Disk reads (bytes/s), Disk writes (bytes/s), Docker Network (sent/received bytes/s) . The CPU usage has the highest utility as confirmed by the Utility indifference indicator shown in Figure \ref{fig_demand}. Also, the memory usage of the service shows slow rate of changes over time, which make it optional to be considered in the adaptation action. With regard to the utility of Disk Read/Write, the Figure \ref{fig_demand} shows no divergent above the moving average (i.e. utility indifference curve) so it will not be considered in the next adaptation action. The docker network shows no changes over the time of the experiment as the load balancer and the reverse proxy manage to divert the traffic to many containers distributed in the cluster.
+
+As the $Utility_(CPU)$ has the highest value of changes as shown in Figure \ref{fig_demand}. This will trigger an adaptation action to reason about the high demand of CPU usage, so the adaptation manager will create additional nodes and add them to the swarm cluster automatically. The number of nodes is equals to the utility cost calculated as in equ. \ref{eq_4}. This results in adding new nodes to the swarm as shown in the snapshot \footnote{https://snapshot.raintank.io/dashboard/snapshot/sstuT2tuYkob8zjIbh1YXzBYxSJDFd9z?orgId=2} (A full visualised and analytics dashboard of the swarm after the adaptation).
+Once the CPU demand is reduced, the adaptation manager will calculate the variations of the utility and remove number of nodes equals to value returned by the utility cost function in equ. \ref{eq_4}. A snapshot \footnote{https://snapshot.raintank.io/dashboard/snapshot/UJlrTzwubrRQjDwM1YFJle5zvdK3Anr7?orgId=2} of the system after executing the adaptation action to reason about the low level of the cpu usage. 
+\begin{figure}[!ht]
+\centering
+\includegraphics[scale=0.5]{ScalingService}
+\caption{ Dynamic Scaling of Web Service}
+\label{fig_Scale}
+\end{figure} 
+
+ 
+
+In another scenario, we simulated Distributed Denial of Service attack to a web service running in the swarm, to verify that the adaptation manager will be able to accommodate the DDOS attack by adding more replicas to the service. In this case, we wish to verify the ability of the proposed model to dynamical adjust the number of service's replicas against the variations of the CPU usage and to maintain an acceptable response time of the web service. At the same time, it is very important that the adaptation action would not scale the service endlessly. So the utility cost is calculated to count the number of replicas needed. The outcome of this experiments is shown in Figure \ref{fig_Scale}. The figure show how the number of scaled replicas are tuned linearly against the CPU usage. Also, it shows the number of steps taken by the adaptation manager to execute the scaling policy in/out. The adaptation manager counts the utility of the CPU metric and the utility cost to define the number of added/removed replicas. The adaptation manager waits for receiving a high utility value by sending heartbeat signal to get the latest value of utility dimension and cost every 20s for a window of 300s. Once the utility of the CPU get the highest utility dimension, the adaptation manager calculates the number of replicas to be added/removed to the service. Also, the number of steps needed to achieve the desired state are counted as shown in Figure \ref{fig_Scale}. The number of steps needed to perform the adaptation varies based on the severity and variation of the utility cost over time. Once the adaptation is applied and verified by winning the consensus algorithm votes, the service will be scaled and the adaptation manager puts a cool off timer of 300s before initiating new adaptation action. Also, it reset the steps timer. 
+
+The accuracy of the utility cost, rate of changes, and the maximum utility dimension are vital for the success of the adaptation process. So, Figure \ref{fig_changes} depicts the calculation of the rate of changes and the utility cost to reach the desired number of nodes/replicas needed. We find the calculation accurately satisfies the adaptation objectives and provides the architecture with accurate calculation of the needed number of nodes/replicas. As shown in Figure \ref{fig_changes}, the number of nodes increases at the right time when the CPU demand spikes, then the number of nodes/replicas reduced just before the CPU demand is declined significantly as shown in Figure \ref{fig_changes}. The rate of changes in CPU usage declined so the Utility cost return negative value for the required number of nodes/replicas as long they are above the minimum number of nodes/replicas specified by the Dev-Ops. Also, as shown in Figure \ref{fig_changes} The utility cost normalizes and tunes the CPU demand. This provides a great evidence that the employment of the utility dimension provides the adaptation cycle a dynamic variability over the needed/allocated resources. Instead off scaling the architecture in/out according to a static threshold. 
+
+The accuracy of the anomaly score and likelihood plays an important role for the successes the proposed model. So, in the following we will evaluate the accuracy of the anomaly detection algorithm implemented in this model. A famous technique for evaluating anomaly detection algorithm is the use of a confusion matrix \cite{kohavi1998confusion}. The confusion matrix represents the total number of records inspected by algorithm as shown in Table \ref{Table_1}. The matrix represents the relationship between the actual levels of normal behaviour and the detected level of normal behaviour by the algorithm. Also, it represents the relationship between the actual anomaly recorded in the system and the predicted/identified anomaly that the algorithm identified as anomalous behaviour.   
+
+
+In case of our proposed model, If NUPIC anomaly detection considered a specific record as anomalous and it was an actual anomaly then this attempt is classified as a \textbf{True Positive}. If NUPIC classifies the data as normal behaviour and it was normal data then this attempt is classified as \textbf{True Negative}. If NUPIC classifies an anomalous behaviour as normal behaviour this means that NUPIC failed to detect anomaly. In the case, this attempt is classified as \textbf{False Negative}. If NUPIC classifies the data as anomalous behaviour but the data was normal behaviour then this attempt is considered a False Alarm/\textbf{False Positive}. Both True Positive and False Positive are important benchmark to measure the accuracy of intrusion detection systems. Table \ref{Table_1} summarizes the values used for evaluating the anomaly detection algorithm we used in this paper. The confusion matrix will be used to calculate the model detection rate, false positive, and accuracy. Those results will be compared against SNORT \footnote{https://snort.org} \cite{roesch1999snort}. SNORT is implemented as a container in the leader node of the cluster (see Figure \ref{fig_model}). Based on the calculations of NUPIC anomaly detection shown in Table \ref{Table_1} and Snort in Table \ref{Table_2}, it was found that our proposed model of using NUPIC performs significantly better in terms of the detection rate, false alarms, and accuracy. The false alarm rate in the model (0.0264) is lower than SNORT (1,12). In addition, the model provides a high rate of true alarms and anomaly detection as summarised in Table \ref{Table_3}. The equations used in this evaluation are listed in \ref{Table_3}.    
+ 
+\begin{table}[h!]
+\centering
+\caption{Results of the proposed anomalies detection model on confusion matrix}
+\resizebox{\columnwidth}{!}{ 
+\label{Table_1}
+ \begin{tabular}{|c|c|c|}
+        \hline
+        X= 1528   & Predicted anomalies & Predicted normality \\
+        \hline
+        Actual anomalies (TP + FN) (55) & TP = 49   & FN = 6 \\
+        \hline
+        Actual normalies (FP + TN) (1473)& FP/ False Alarm = 38 & TN = 1435   \\
+        \hline
+        \end{tabular}}
+\end{table}
+\begin{table}[h!]
+\centering
+\caption{Results of the SNORT anomaly detection on confusion matrix}
+\resizebox{\columnwidth}{!}{ 
+\label{Table_2}
+ \begin{tabular}{|c|c|c|}
+        \hline
+        X= 1528   & Predicted anomalies & Predicted normality \\
+        \hline
+        Actual anomalies (TP + FN) (55) & TP = 32   & FN = 23 \\
+        \hline
+        Actual normalies (FP + TN) (1473)& FP/ False Alarm = 62 & TN = 1411   \\
+        \hline
+        \end{tabular}
+}
+\end{table}
+\begin{table}[h!]
+\centering
+\footnotesize
+\caption{Comparison between SNORT Anomaly Detection and the Proposed Model}
+\label{Table_3}
+\begin{tabular}{|c|c|c|p{9cm}|}
+ \hline 
+ Rate & NUPIC & SNORT & Result \\ 
+ \hline 
+ Accuracy  & 0.97 & 0.944 &  Implementation of NUPIC provides better accuracy $Accuracy=(TP+TN)/x$, over the SNORT anomaly detection. \\ 
+ \hline 
+ Misclassification  & 0.0287 & 0.0554 & The rate of false alarms is lower in the proposed model compared with SNORT. The Misclassification is calculated using $Misclassification=(FP+FN )/x$ \\ 
+ \hline 
+ True Positive Rate (TP)  & 0.89 & 0.58 & $TP\;rate=TP/(Actual\;anomalies\;in\;x)$. The rate of true alarms in the model is significantly better than SNORT. \\ 
+ \hline 
+ False Positive (FP)/ False Alarm & 0.0264 & 1.12 & The proposed model has a lower rate of incorrect classification of attacks calculated using $FP \;rate =FP/(Actual\;in\;x)$, but SNORT has a higher rate of not detecting attacks and considering them as normal behaviour \\ 
+ \hline 
+ True Negative (TN & 0.998 & 0.981 & Both models- SNORT and the proposed model- have a good rate of detecting the normal behaviour of the system as calculated by $TN\;rate=TN/(Actual\;in\;x)$. However, the proposed model provides better results.  \\ 
+ \hline 
+ Precision  & 0.89 & 0.58 & The precision $Precision=TP/(Predicted\;anomalies\;in\;x)$, of the proposed model is far better than SNORT. The gap between the two models is clear. \\ 
+ \hline 
+ Prevalence  & 0.03599 & 0.03599 & Both models have the same prevalence rate calculated by $Prevalence=(Actual\;anomalies)/x$ as the DDOS was simulated as part of the experiment. \\ 
+ \hline 
+ \end{tabular} 
+\end{table}
+
+The values in Table \ref{Table_3} clearly show that the proposed model performs better in terms of false alarms, detection rate, and accuracy. A further calculation, as shown below, could provide a better idea of the performance of the proposed model. The detection rate of SNORT is $32/((32+62) )=0.340$ and this indicates that the proposed model has a better detection rate, as the proposed model used a machine-learning algorithm to build a model about the data and provides a prediction for each value. Those factors improve the detection rate compared with SNORT, which used a rule-based engine to match the incoming traffic and pre-configured rules. 
+
+The False Alarm of the proposed model  is $0.0257$. This indicates that the proposed model has a very low rate of providing a false alarm or identifying normal behaviour as anomalous. In the contrast, the false alarm for SNORT is $62/((62+1411))=0.042$. This value is a clear indication that SNORT would provide more false alarms about normal traffic in the system. This is due to the fact that SNORT considers one factor of identifying an anomaly which is the network traffic. In contrast, the proposed model continuously observed and learned the behaviour of so many performance criteria about the cluster in addition to the network traffic. 
+
+
+
+
+The overall accuracy of the proposed model is $0.97$. The accuracy of SNORT is 0.944, due to the fact that SNORT is continuously monitoring the system network, but it has no means of understanding the behaviour of the system. The proposed model builds an accurate model of the system behaviour so it has better insight into any fluctuations or spikes in the data. This feature is considered to be very important for the success of the adaptation strategy and the self-healing property of the Microservices architecture. 
+
+However, we believe that this model manages to offer the Microservices architecture with continuous monitoring, continuous detection of anomalous behaviour, and provides the architecture with dynamic decision making based on the employment of multidimensional utility-based model. The results in above, shows high accuracy in detecting the anomaly and an accurate calculation of variant adaptation actions. It Also shows high success rate in performing horizontal and vertical autoscaling in response to contextual changes. 
+
+
+
+
+\section{Conclusions and Future Work}\label{sec:Conclusion}
+
+This model manages to offer the Microservices architecture with continuous monitoring, continuous detection of anomalous behaviour, and provides the architecture with dynamic decision making based on the employment of multidimensional utility-based model. The results in above, shows high accuracy in detecting the anomaly and an accurate calculation of variant adaptation actions. It Also shows high success rate in performing horizontal and vertical scaling in response to contextual changes. The uses of  utility-based model enables the architecture to dynamically elect a reasoning approach based on the highest utility dimension of context changes in the operational environment. The self-healing property is achieved by parameter tuning of the running services and dynamic adjustment of the swarm cluster. We believe integrating utility theory in the decision making process improves the effectiveness of the adaptation and reduces the adaptation risk including resources over-provisioning and thrashing. Also, it preserving the cluster state by preventing multiple adaptation to take place at the same time. Enabling a prediction over the metrics of the operational resources enables the architecture to schedule a proactive adaptation actions. 
+
+This model supports vertical and horizontal scaling of the Microservices architecture, but it requires further improvement with regard to services compositions, and decentralised decision making. Currently, Docker swarm enables the cluster to have one leader, which prevents us from testing this model in multi leaders environment. This enforces us to implement the adaptation manager as a central component in the leader node but it has the ability to  execute the adaptation action via the leader node orchestration algorithm. Also, this model requires an enhanced mechanism of run-time configurations, as it supports currently parameter tuning of the architecture configurations. Also, the current implementation of NUPIC requires multiple implementations for each contextual changes. NUPIC has no support for swarming (model training) over multiple variables data model. Finally, we believe the ability of the Microservices to self-heal itself is achievable, but a major question stands related to how we could evaluate the self-healing property of Microservice architecture. This question requires further investigation to find an applicable runtime evaluation mechanisms.    
+
+
+
+
+ 
+
+\bibliographystyle{wileyNJD-AMS}
+\bibliography{selfhealingv2.bib} 
+
+\end{document}
